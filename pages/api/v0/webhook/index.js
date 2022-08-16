@@ -1,6 +1,7 @@
 import Stripe from "stripe";
 import { buffer } from "micro";
 import { ToSaveCourse } from "../../../../utils/Savecourse";
+import axios from "axios";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
@@ -41,13 +42,11 @@ export default async function handler(req, res) {
           expand: ["line_items"],
         }
       );
-      console.log("email", event.data.object.customer_details.email);
-      console.log("course", line_items.data[0].price.product);
 
-      await ToSaveCourse(
-        event.data.object.customer_details.email,
-        line_items.data[0].price.product
-      );
+      await axios.post(`https://${NEXT_PUBLIC_VERCEL_URL}/api/v0/webhook`, {
+        email: event.data.object.customer_details.email,
+        course: line_items.data[0].price.product,
+      });
     } else {
       console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
     }
