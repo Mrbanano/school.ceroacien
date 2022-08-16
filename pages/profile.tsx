@@ -9,11 +9,9 @@ import { getSession, useSession } from "next-auth/react";
 import Redirect from "../components/Redirect";
 import Spinner from "../components/Spinner";
 
-export default function Profile({ debuug }) {
+export default function Profile() {
   const { data: session, status } = useSession();
   const isLoading = status === "loading";
-
-  console.log(debuug);
 
   // When rendering client side don't display anything until loading is complete
   if (typeof window !== "undefined" && isLoading)
@@ -302,14 +300,3 @@ const CouseItem: React.FC<CouseItemProps> = ({ courses }) => {
     </Link>
   );
 };
-
-//get server props
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-
-  return {
-    props: {
-      debuug: session,
-    },
-  };
-}
