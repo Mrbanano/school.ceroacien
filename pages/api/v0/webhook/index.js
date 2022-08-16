@@ -43,6 +43,7 @@ export default async function handler(req, res) {
       );
       console.log("email", event.data.object.customer_details.email);
       console.log("course", line_items.data[0].price.product);
+
       await ToSaveCourse(
         event.data.object.customer_details.email,
         line_items.data[0].price.product

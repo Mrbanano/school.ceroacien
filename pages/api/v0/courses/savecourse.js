@@ -17,6 +17,12 @@ export default async function handler(req, res) {
         });
       }
 
+      if (user.Courses.includes(course)) {
+        return res.status(409).json({
+          message: "User already enrolled in this course",
+        });
+      }
+
       const addCourse = await User.findOneAndUpdate(
         { Email: email },
         { $push: { Courses: course } },
