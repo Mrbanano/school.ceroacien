@@ -13,11 +13,11 @@ export default function Home({ Bootcamp = BootcampItems }) {
   const { data: session, status } = useSession();
   const [user, setuser] = useState(session?.user);
   const loading = status === "loading";
-  //Create a user
+  //Create a
   useEffect(() => {
     (async () => {
       if (user) {
-        const { data } = await CeroacienInstances.post("/user", { user });
+        await CeroacienInstances.post("/user", { user });
       }
     })();
   }, [user]);
