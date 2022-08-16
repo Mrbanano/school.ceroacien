@@ -43,7 +43,7 @@ function Index({ children }) {
     <>
       {asPath === "/" ? null : (
         <>
-          <header className="w-full py-1 bg-white shadow-lg sticky top-0 z-[100]">
+          <header className="w-full py-1 bg-white shadow-lg sticky top-0 z-40">
             <nav className="navbar navbar-expand-lg navbar-light bg-light p-2  flex items-center justify-between max-w-screen-xl mx-auto">
               <div className=" w-1/2 md:w-2/12">
                 <Link href="/">

@@ -16,7 +16,7 @@ export default function Path() {
   useEffect(() => {
     setPosition({
       x: window.innerWidth,
-      y: window.innerHeight * 2.5,
+      y: window.innerHeight * 2,
     });
   }, []);
 
@@ -35,7 +35,9 @@ export default function Path() {
         height={position.y}
         recycle={false}
         numberOfPieces={3000}
-        className={"z-150"}
+        className={"z-50"}
+        gravity={0.1}
+        tweenDuration={4500}
       />
       <HeaderTest Content={Content} />
       <BodyTest>
