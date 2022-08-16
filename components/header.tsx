@@ -14,8 +14,6 @@ export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  console.log(status);
-
   return (
     <>
       <BannerAds show={true} />
