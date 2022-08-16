@@ -117,8 +117,6 @@ const ProfileCard = ({ user }) => {
             src={user.image}
             alt="Profile"
             className="aspect-square w-full h-full "
-            decode="async"
-            data-testid="profile-picture"
           />
         </div>
         <div className="">
@@ -242,12 +240,26 @@ const WraperCourse = () => {
   );
 };
 
-const CouseItem = ({ courses }) => {
+interface CouseItemProps {
+  courses: CourseItem[];
+}
+
+interface CourseItem {
+  id: number | string | undefined | null;
+  meta: object | number | string | undefined | null;
+  title: string | undefined | null;
+  description: string | undefined | null;
+  name: string | undefined | null;
+}
+
+const CouseItem: React.FC<CouseItemProps> = ({ courses }) => {
   //custom hook
   const [course, setcourse] = useState(null);
-  useEffect(async () => {
-    const { data } = await CeroacienInstances.get(`/courses/${courses}`);
-    setcourse(data);
+  useEffect(() => {
+    (async () => {
+      const { data } = await CeroacienInstances.get(`/courses/${courses}`);
+      setcourse(data);
+    })();
   }, [course]);
 
   return (

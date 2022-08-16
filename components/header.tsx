@@ -103,12 +103,7 @@ const ToogleMenu = ({ isOpen, toggle }) => {
       <div className="py-1">
         <Link href="/profile">
           <div className=" p-3 hover:bg-gray-300" onClick={toggle}>
-            <Link
-              onClick={toggle}
-              href="/profile"
-              icon="user"
-              testId="navbar-profile-mobile"
-            >
+            <Link onClick={toggle} href="/profile">
               Perfil
             </Link>
           </div>
