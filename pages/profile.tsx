@@ -5,58 +5,67 @@ import Link from "next/link";
 import { CeroacienInstances } from "../config";
 import Head from "next/head";
 import { getContentProfile } from "../utils/getContentProfile";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import Redirect from "../components/Redirect";
 import Spinner from "../components/Spinner";
 
-export default function Profile() {
+export default function Profile({ debuug }) {
   const { data: session, status } = useSession();
-  const [user, setuser] = useState(session?.user);
   const isLoading = status === "loading";
 
-  return (
-    <>
-      {isLoading && (
-        <div className="h-screen w-screen grid place-content-center">
-          <Spinner />
-        </div>
-      )}
-      {status === "authenticated" && (
-        <>
-          <Head>
-            <title>
-              {user?.name} | Ceroacien | acelera tu carrera profesional
-            </title>
-            <meta name="description" content="" />
-            <link rel="icon" href="/favicon.ico" />
-          </Head>
-          <main>
-            {user && !isLoading && (
-              <>
-                <Header />
-                <Banner />
-                <Wrapper>
-                  <section className="flex flex-col md:flex-row  bg-white md:bg-transparent ">
-                    <div className="h-full w-full md:w-3/12 md:sticky md:top-56 md:h-[300px] z-50 ">
-                      <ProfileCard user={user} />
-                    </div>
-                    <div className="w-full md:w-6/12 my-30 ">
-                      <WraperCourse />
-                      <div className="h-[50px] w-full"></div>
-                    </div>
-                    <div className="hidden w-0 md:block h-full  md:w-3/12 sticky top-40">
-                      <Newletter />
-                    </div>
-                  </section>
-                </Wrapper>
-              </>
-            )}
-          </main>
-        </>
-      )}
-      {status === "unauthenticated" && <Redirect href="/" />}
-    </>
-  );
+  console.log(debuug);
+
+  // When rendering client side don't display anything until loading is complete
+  if (typeof window !== "undefined" && isLoading)
+    return (
+      <>
+        <Head>
+          <title>Perfil | Ceroacien | acelera tu carrera profesional</title>
+          <meta name="description" content="" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <main className="w-screen h-screen grid place-content-center">
+          <Spinner></Spinner>
+        </main>
+      </>
+    );
+
+  // If no session exists, redirect to login page
+  if (!session) {
+    return <Redirect href={"/api/auth/signin?callbackUrl=%2Fprofile"} />;
+  }
+
+  if (session && status === "authenticated") {
+    return (
+      <>
+        <Head>
+          <title>
+            {session.user?.name} | Ceroacien | acelera tu carrera profesional
+          </title>
+          <meta name="description" content="" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <main>
+          <Header />
+          <Banner />
+          <Wrapper>
+            <section className="flex flex-col md:flex-row  bg-white md:bg-transparent ">
+              <div className="h-full w-full md:w-3/12 md:sticky md:top-56 md:h-[300px] z-50 ">
+                <ProfileCard user={session.user} />
+              </div>
+              <div className="w-full md:w-6/12 my-30 ">
+                <WraperCourse />
+                <div className="h-[50px] w-full"></div>
+              </div>
+              <div className="hidden w-0 md:block h-full  md:w-3/12 sticky top-40">
+                <Newletter />
+              </div>
+            </section>
+          </Wrapper>
+        </main>
+      </>
+    );
+  }
 }
 
 const Banner = () => {
@@ -293,3 +302,14 @@ const CouseItem: React.FC<CouseItemProps> = ({ courses }) => {
     </Link>
   );
 };
+
+//get server props
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  return {
+    props: {
+      debuug: session,
+    },
+  };
+}
