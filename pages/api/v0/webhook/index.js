@@ -43,14 +43,16 @@ export default async function handler(req, res) {
         }
       );
 
-      const { data } = await axios.post(
+      console.log(line_items);
+
+      /*const { data } = await axios.post(
         `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/v0/webhook`,
         {
           email: event.data.object.customer_details.email,
           course: line_items.data[0].price.product,
         }
       );
-      console.log(data);
+      console.log(data);*/
     } else {
       console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
     }

@@ -18,7 +18,7 @@ export default async function handler(req, res) {
       }
 
       if (user.Courses.includes(course)) {
-        return res.status(409).json({
+        return res.status(200).json({
           message: "User already enrolled in this course",
         });
       }
