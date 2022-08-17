@@ -16,7 +16,8 @@ export default async function handler(req, res) {
 
   if (req.method === "POST") {
     let event;
-    let product;
+    var course;
+
     try {
       // 1. Retrieve the event by verifying the signature using the raw body and secret
       const rawBody = await buffer(req);
@@ -43,27 +44,26 @@ export default async function handler(req, res) {
           expand: ["line_items"],
         }
       );
-      product = line_items[0].product;
+      course = line_items[0].product;
+      try {
+        const { data } = await axios.post(
+          `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/v0/webhook`,
+          {
+            email: "6666alvaro666@gmail.com",
+            course: "prod_M3QQuIyzvHyCtU",
+          }
+        );
+        console.log(data);
+        res.status(200).json({ received: true });
+      } catch (error) {
+        console.log(error);
+        res.status(200).json({ received: true });
+      }
     } else {
       console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
     }
 
-    const email = event.data.object.customer_details.email;
-
-    try {
-      const { data } = await axios.post(
-        `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/v0/webhook`,
-        {
-          email: "6666alvaro666@gmail.com",
-          course: "prod_M3QQuIyzvHyCtU",
-        }
-      );
-      res.status(200).json({ received: true });
-    } catch (error) {
-      console.log(error)
-      res.status(200).json({ received: true });
-    }
-
+    res.status(200).json({ received: true });
   } else {
     res.setHeader("Allow", "POST");
     res.status(405).end("Method Not Allowed");
