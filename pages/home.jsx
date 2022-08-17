@@ -8,11 +8,21 @@ import { useSession } from "next-auth/react";
 import Spinner from "../components/Spinner";
 import Redirect from "../components/Redirect";
 
+import ModalPayment from "../components/ModalPayment";
+
 export default function Home({ Bootcamp = BootcampItems }) {
   const [Courses, setCourses] = useState([]);
   const { data: session, status } = useSession();
   const [user, setuser] = useState(session?.user);
   const loading = status === "loading";
+
+  const [showModal, setShowModal] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  const handleCloseModal = () => {
+    setShowModal(!showModal);
+  };
+
   //Create a
   useEffect(() => {
     (async () => {
@@ -58,48 +68,58 @@ export default function Home({ Bootcamp = BootcampItems }) {
           />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <header>
-          <section className="w-full  bg-slate-200 z-0  md:h-[400px] flex items-center ">
-            <div className="max-w-screen-xl mx-auto flex justify-center h-full z-0 p-2 md:h-[150px]">
-              <div className="z-10 flex flex-col items-center pt-0 md:pt-0">
-                <span className="bg-orange-200 text-orange-700 px-4 py-1 rounded-md font-semibold ">
-                  Programas
-                </span>
-                <h1 className="py-14 px-2 font-bold text-center text-3xl md:text-5xl md:w-[500px] text-slate-700">
-                  Acelera tu éxito profesional
-                </h1>
+        <ModalPayment
+          show={showModal}
+          handleCloseModal={handleCloseModal}
+          course={selectedItem}
+        />
+        <div className={`${showModal ? "max-h-[85vh] overflow-hidden" : ""}`}>
+          <header>
+            <section className="w-full  bg-slate-200 z-0  md:h-[400px] flex items-center ">
+              <div className="max-w-screen-xl mx-auto flex justify-center h-full z-0 p-2 md:h-[150px]">
+                <div className="z-10 flex flex-col items-center pt-0 md:pt-0">
+                  <span className="bg-orange-200 text-orange-700 px-4 py-1 rounded-md font-semibold ">
+                    Programas
+                  </span>
+                  <h1 className="py-14 px-2 font-bold text-center text-3xl md:text-5xl md:w-[500px] text-slate-700">
+                    Acelera tu éxito profesional
+                  </h1>
+                </div>
               </div>
-            </div>
-          </section>
-          <section className="max-w-screen-xl mx-auto  px-5 mb-10 z-50">
-            <div className="bg-white w-full mt-[-35px] rounded-xl shadow-md z-50 p-3 flex flex-col gap-4  md:flex-row md:justify-around">
-              {ItemInfo.map((item, index) => (
-                <CardInfo key={index} item={item} />
-              ))}
-            </div>
-          </section>
-        </header>
-        <main className="max-w-screen-xl mx-auto md:mb-10">
-          {!Courses && null}
-          {Courses && Courses.length > 1 && (
-            <ItemsContainer
-              Items={Courses}
-              Error={Error}
-              label="Categorias"
-              text="Explora nuestros cursos más populares"
-              type="courses"
-            />
-          )}
-          {!Bootcamp && null}
-          {Bootcamp && Bootcamp.length > 1 && (
-            <ItemsContainer
-              Items={Bootcamp}
-              Error={Error}
-              label="Categorias"
-              text="Explora nuestros programas de educación acelerada más populares"
-            />
-          )}
-        </main>
+            </section>
+            <section className="max-w-screen-xl mx-auto  px-5 mb-10 z-50">
+              <div className="bg-white w-full mt-[-35px] rounded-xl shadow-md z-50 p-3 flex flex-col gap-4  md:flex-row md:justify-around">
+                {ItemInfo.map((item, index) => (
+                  <CardInfo key={index} item={item} />
+                ))}
+              </div>
+            </section>
+          </header>
+          <main className="max-w-screen-xl mx-auto md:mb-10">
+            {!Courses && null}
+            {Courses && Courses.length > 1 && (
+              <ItemsContainer
+                Items={Courses}
+                setSelectedItem={setSelectedItem}
+                setShowModal={setShowModal}
+                show={showModal}
+                Error={Error}
+                label="Categorias"
+                text="Explora nuestros cursos más populares"
+                type="courses"
+              />
+            )}
+            {!Bootcamp && null}
+            {Bootcamp && Bootcamp.length > 1 && (
+              <ItemsContainer
+                Items={Bootcamp}
+                Error={Error}
+                label="Categorias"
+                text="Explora nuestros programas de educación acelerada más populares"
+              />
+            )}
+          </main>
+        </div>
       </>
     );
   }

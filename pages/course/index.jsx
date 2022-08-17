@@ -1,9 +1,9 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import React from 'react';
-import { useState } from 'react';
-import { useEffect } from 'react';
-import { CeroacienInstances } from '../../config';
+import Head from "next/head";
+import Link from "next/link";
+import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
+import { CeroacienInstances } from "../../config";
 
 export default function index() {
   //custom hook
@@ -11,14 +11,18 @@ export default function index() {
   const [isLoading, setIsLoading] = useState(true);
   const [filterCourse, setFilterCourse] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
-  const [tags, setTags] = useState(['Todos los cursos', 'Python', 'JavaScript']);
+  const [tags, setTags] = useState([
+    "Todos los cursos",
+    "Python",
+    "JavaScript",
+  ]);
 
   const toggle = () => setIsOpen(!isOpen);
 
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await CeroacienInstances('/courses');
+        const { data } = await CeroacienInstances("/courses");
         setcourse(data.data);
         setFilterCourse(data.data);
         setIsLoading(false);
@@ -29,17 +33,17 @@ export default function index() {
     })();
   }, []);
 
-  console.log('vercel url', process.env.VERCEL_URL);
-  console.log('next url', process.env.NEXT_PUBLIC_VERCEL_URL);
-  console.log('auth0 url', process.env.AUTH0_BASE_URL);
+  console.log("vercel url", process.env.VERCEL_URL);
+  console.log("next url", process.env.NEXT_PUBLIC_VERCEL_URL);
+  console.log("auth0 url", process.env.AUTH0_BASE_URL);
 
   const Search = ({ target }) => {
     const search = target.outerText;
-    if (search === 'Todos los cursos') {
+    if (search === "Todos los cursos") {
       setFilterCourse(course);
       return;
     }
-    const filteredCouse = course.filter(course => {
+    const filteredCouse = course.filter((course) => {
       return course.metadata.topic.includes(search);
     });
     setFilterCourse(filteredCouse);
@@ -47,7 +51,7 @@ export default function index() {
 
   const Filter = ({ target }) => {
     const search = target.value.trim().toLowerCase();
-    const filteredCouses = course.filter(course => {
+    const filteredCouses = course.filter((course) => {
       return course.name.toLowerCase().includes(search.toLowerCase());
     });
     setFilterCourse(filteredCouses);
@@ -56,7 +60,9 @@ export default function index() {
   return (
     <>
       <Head>
-        <title>Todos los cursos | Ceroacien | acelera tu carrera profesional</title>
+        <title>
+          Todos los cursos | Ceroacien | acelera tu carrera profesional
+        </title>
         <meta
           name="description"
           content="Aqui encontraras los modulos que te ayudaran a aprender habilidades de esta industrica tecnologica"
@@ -67,7 +73,12 @@ export default function index() {
         <aside className="hidden w-0 md:block md:w-3/12 mr-4">
           <div className="h-[80px] "></div>
           <SearchBar Filter={Filter} />
-          <TagsSection tags={tags} isOpen={isOpen} toggle={toggle} Search={Search} />
+          <TagsSection
+            tags={tags}
+            isOpen={isOpen}
+            toggle={toggle}
+            Search={Search}
+          />
         </aside>
         <section className="w-full md:w-9/12">
           <BannerTest />
@@ -85,21 +96,42 @@ const TagsSection = ({ tags, isOpen, toggle, Search }) => {
       <details open>
         <summary
           className="p-3 text-xl flex justify-between "
-          style={{ paddingLeft: '0', backgroundImage: 'none', webkitAppearance: 'none' }}>
+          style={{
+            paddingLeft: "0",
+            backgroundImage: "none",
+            webkitAppearance: "none",
+          }}
+        >
           <h2 className="font-semibold text-2xl text-left">Lenguajes</h2>
-          <div className={`${isOpen ? 'rotate-0' : 'rotate-180'} transition duration-200 ease-out `} onClick={toggle}>
-            <svg width={30} height={30} fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path fillRule="evenodd" clipRule="evenodd" d="m15 10 8.75 10H6.25L15 10Z" fill="#000" />
+          <div
+            className={`${
+              isOpen ? "rotate-0" : "rotate-180"
+            } transition duration-200 ease-out `}
+            onClick={toggle}
+          >
+            <svg
+              width={30}
+              height={30}
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="m15 10 8.75 10H6.25L15 10Z"
+                fill="#000"
+              />
             </svg>
           </div>
         </summary>
         <div className=" my-6">
           <ul>
-            {tags.map(tag => (
+            {tags.map((tag) => (
               <li
                 className="text-lg  font-medium border-2 border-transparent py-2 pl-4 hover:text-primary"
                 onClick={Search}
-                key={'filtrar por' + tag}>
+                key={"filtrar por" + tag}
+              >
                 {tag}
               </li>
             ))}
@@ -111,13 +143,16 @@ const TagsSection = ({ tags, isOpen, toggle, Search }) => {
 };
 
 const SearchBar = ({ Filter, isMobile }) => {
-  const Mobile = 'md:hidden';
-  const Desktop = 'hidden md:block';
+  const Mobile = "md:hidden";
+  const Desktop = "hidden md:block";
 
   return (
     <>
       <form className={`${isMobile ? Mobile : Desktop} my-6 md:pb-5 md:pr-2`}>
-        <label forhtml="default-search" className="mb-2 text-sm font-medium text-gray-900 sr-only">
+        <label
+          forhtml="default-search"
+          className="mb-2 text-sm font-medium text-gray-900 sr-only"
+        >
           Buscar
         </label>
         <div className="relative">
@@ -128,12 +163,14 @@ const SearchBar = ({ Filter, isMobile }) => {
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg">
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 strokeWidth="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+              ></path>
             </svg>
           </div>
           <input
@@ -156,9 +193,10 @@ const BannerTest = () => {
       className="md:sticky md:top-24 z-30 my-6 w-full h-[80px] max-w-[936px]  grid place-content-center "
       style={{
         backgroundImage: 'url("https://i.postimg.cc/658YCdSs/Frame-16.png")',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover'
-      }}>
+        backgroundPosition: "center",
+        backgroundSize: "cover",
+      }}
+    >
       <p className="p-3 md:text-xl flex flex-col md:flex-row  items-center  gap-3 text-black font-semibold">
         ¿No estás seguro por dónde empezar ?
         <Link href="elige-los-mejores-cursos-para-ti">
@@ -190,14 +228,14 @@ const CourseGrid = ({ filterCourse, isLoading }) => {
       {isLoading && (
         <div className="grid min-h-[50vh] grid-cols-1 md:grid-cols-3 gap-5  py-10">
           {courseLoading.map((item, index) => (
-            <CourseItemLoading key={'course' + index} course={item} />
+            <CourseItemLoading key={"course" + index} course={item} />
           ))}
         </div>
       )}
       {!isLoading && filterCourse.length > 0 && (
         <div className="grid grid-cols-1 min-h-[50vh] md:grid-cols-3 gap-5 py-10">
-          {course.map(item => (
-            <CourseItem key={'loading ' + item.id} course={item} />
+          {course.map((item) => (
+            <CourseItem key={"loading " + item.id} course={item} />
           ))}
         </div>
       )}
@@ -205,9 +243,15 @@ const CourseGrid = ({ filterCourse, isLoading }) => {
   );
 };
 
-const Empty = props => {
+const Empty = (props) => {
   return (
-    <svg width={200} height={105} fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      width={200}
+      height={105}
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <g clipPath="url(#a)">
         <path
           d="M100.724.084c-27.715 1.764-48.445 26.152-45.727 53.79l.03.302a.048.048 0 0 0 .03.04c23.207 9.64 46.476 10.328 69.707 6.583 12.708-2.048 21.318-14.191 18.862-26.827l-.112-.592c-3.728-20.332-22.159-34.61-42.79-33.296Z"
@@ -249,7 +293,7 @@ const Empty = props => {
 
 const CourseItem = ({ course }) => {
   return (
-    <Link key={'course' + course.name} href={`/course/${course.id}`}>
+    <Link key={"course" + course.name} href={`/course/${course.id}`}>
       <div className="border-2 border-black h-[180px] p-4 flex flex-col justify-between bg-white hover:border-primary">
         <div className="">
           <p className="font-light text-sm">Curso</p>
@@ -266,8 +310,9 @@ const CourseItem = ({ course }) => {
 const CourseItemLoading = ({ course }) => {
   return (
     <div
-      key={'course' + course.name}
-      className="animate-pulse  border-2 border-black h-[180px] p-4 flex flex-col justify-between bg-white hover:border-primary">
+      key={"course" + course.name}
+      className="animate-pulse  border-2 border-black h-[180px] p-4 flex flex-col justify-between bg-white hover:border-primary"
+    >
       <div className="">
         <p className=" bg-slate-200 w-[50px] h-[17px] rounded-xl my-3"></p>
         <h2 className=" bg-slate-200 w-full h-[17px] rounded-xl py-3"></h2>

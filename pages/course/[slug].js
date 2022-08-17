@@ -13,12 +13,18 @@ import Image from "next/image";
 import { Payment } from "../../utils/Payment";
 import { useRouter } from "next/router";
 import { getCourseDetail } from "../../utils/getCourseDetail";
+import ModalPayment from "../../components/ModalPayment";
 
 export default function index() {
   const [Loading, setLoading] = useState(true);
   const [course, setCourse] = useState({});
   const { asPath } = useRouter();
   const id = asPath.split("/")[2];
+  const [showModal, setShowModal] = useState(false);
+
+  const handleCloseModal = () => {
+    setShowModal(!showModal);
+  };
 
   useEffect(() => {
     (async () => {
@@ -36,14 +42,28 @@ export default function index() {
         <meta name="description" content={course.descripcion} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="relative max-w-screen-xl mx-auto sm:flex justify-evenly items-start sm:mt-14">
+      <ModalPayment
+        show={showModal}
+        handleCloseModal={handleCloseModal}
+        course={course}
+      />
+      ;
+      <main
+        className={`${
+          showModal ? "max-h-[75vh] overflow-hidden" : ""
+        }  relative max-w-screen-xl mx-auto sm:flex justify-evenly items-start sm:mt-14`}
+      >
         {Loading ? (
           <p>Cargando...</p>
         ) : (
           <>
             <WraperCourseInfo>
               <HeroCourse media={course?.extra?.media} />
-              <CourseInfo course={course} />
+              <CourseInfo
+                course={course}
+                handleCloseModal={handleCloseModal}
+                show={showModal}
+              />
             </WraperCourseInfo>
             <Banner price={course.default_price} />
             <WrapperCourseContent>
@@ -95,7 +115,7 @@ const HeroCourse = ({ media, type = "video" }) => {
   );
 };
 
-const CourseInfo = ({ course }) => {
+const CourseInfo = ({ course, handleCloseModal, show }) => {
   return (
     <section className=" flex flex-col gap-2 px-[2.4rem] py-4 sm:px-3">
       <h1 className="text-2xl font-semibold sm:hidden">{course.name}</h1>
@@ -103,7 +123,11 @@ const CourseInfo = ({ course }) => {
       <CourseContent>
         <CourseInformation course={course} />
         <Mentor mentor={course?.extra?.tutor} />
-        <Pricing price={course?.default_price} />
+        <Pricing
+          price={course?.default_price}
+          handleCloseModal={handleCloseModal}
+          show={show}
+        />
       </CourseContent>
     </section>
   );
@@ -156,7 +180,7 @@ const CourseInformation = ({ course }) => {
   );
 };
 
-const Pricing = ({ price }) => {
+const Pricing = ({ price, handleCloseModal, show }) => {
   const [isBuy, setIsBuy] = useState(false);
   return (
     <div className="sm:order-1 sm:mb-7">
@@ -170,7 +194,7 @@ const Pricing = ({ price }) => {
         {isBuy ? (
           <button
             onClick={() => {
-              Payment(price);
+              //Payment(price);
             }}
             className="border-2 border-primary bg-primary text-white w-full font-semibold px-3 py-4 hover:bg-white hover:text-primary"
           >
@@ -179,7 +203,7 @@ const Pricing = ({ price }) => {
         ) : (
           <button
             onClick={() => {
-              Payment(price);
+              handleCloseModal(show);
             }}
             className="border-2 border-primary bg-primary text-white w-full font-semibold px-3 py-4 hover:bg-white hover:text-primary"
           >

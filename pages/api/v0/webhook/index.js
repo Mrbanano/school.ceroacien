@@ -45,7 +45,7 @@ export default async function handler(req, res) {
         }
       );
       course = line_items[0].product;
-      try {
+      /*try {
         const { data } = await axios.post(
           `https://${process.env.NEXT_PUBLIC_VERCEL_URL}/api/v0/webhook`,
           {
@@ -57,8 +57,7 @@ export default async function handler(req, res) {
         res.status(200).json({ received: true });
       } catch (error) {
         console.log(error);
-        res.status(200).json({ received: true });
-      }
+        res.status(200).json({ received: true });*/
     } else {
       console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);
     }
