@@ -25,6 +25,10 @@ const Links = [
     name: "Cursos",
     href: "/course",
   },
+  {
+    name: "Podcasts",
+    href: "/podcast",
+  },
 ];
 
 const LinksMobile = [
