@@ -188,11 +188,11 @@ const CourseInformation = ({ course }) => {
 };
 
 const Pricing = ({ id, price, handleCloseModal, show }) => {
-  const [isBuy, setIsBuy] = useState(false);
+  //Custom Hook
   const { data: session, status } = useSession();
+  const [isBuy, setIsBuy] = useState(false);
   useEffect(() => {
     (async () => {
-      console.log("montando boton");
       if (status === "loading") return;
       try {
         const state = await CheckIfCourseIsBuy(session.user.email, id);

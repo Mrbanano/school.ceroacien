@@ -1,7 +1,8 @@
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import { Payment } from "../../utils/Payment";
+import React, { useEffect, useState } from "react";
+import { CheckIfCourseIsBuy } from "../../utils/checkIfCourseIsBuy";
 
 const Header = ({ label, text }) => {
   return (
@@ -67,6 +68,21 @@ const CardCourse = (props) => {
   const item = props.item;
   const Status = item.metadata.Status;
 
+  //Custom Hook
+  const { data: session, status } = useSession();
+  const [isBuy, setIsBuy] = useState(false);
+  useEffect(() => {
+    (async () => {
+      if (status === "loading") return;
+      try {
+        const state = await CheckIfCourseIsBuy(session.user.email, item.id);
+        setIsBuy(state);
+      } catch (error) {
+        setIsBuy(false);
+      }
+    })();
+  }, [item.id]);
+
   const HandleModal = () => {
     window.scrollTo(0, 0);
     props.setSelectedItem(item);
@@ -96,14 +112,26 @@ const CardCourse = (props) => {
                 </button>
               </a>
             </Link>
-            <a className=" hidden sm:block sm:w-full">
-              <button
-                onClick={HandleModal}
-                className="w-full p-[9px] lg:p-3  border-2 rounded-lg font-bold text-sm bg-primary text-white md:text-lg   hover:text-white hover:font-black hover:border-primary transition duration-150 ease-out hover:ease-in "
-              >
-                Comprar ahora
-              </button>
-            </a>
+            {!isBuy && (
+              <a className=" hidden sm:block sm:w-full">
+                <button
+                  onClick={HandleModal}
+                  className="w-full p-[9px] lg:p-3  border-2 rounded-lg font-bold text-sm bg-primary text-white md:text-lg   hover:text-white hover:font-black hover:border-primary transition duration-150 ease-out hover:ease-in "
+                >
+                  Comprar ahora
+                </button>
+              </a>
+            )}
+            {isBuy && (
+              <a className=" hidden sm:block sm:w-full">
+                <button
+                  onClick={() => {}}
+                  className="w-full p-[9px] lg:p-3  border-2 rounded-lg font-bold text-sm bg-primary text-white md:text-lg   hover:text-white hover:font-black hover:border-primary transition duration-150 ease-out hover:ease-in "
+                >
+                  Ver curso
+                </button>
+              </a>
+            )}
           </div>
         </div>
         <div className="h-[100%] w-2/6 grid place-items-center md:p-10 p-1  relative">
@@ -142,12 +170,23 @@ const CardCourse = (props) => {
         </div>
         <div className="min-h-1/6 ">
           <div className="flex flex-col gap-3 h-full ">
-            <button
-              onClick={HandleModal}
-              className="w-full border-2 p-4 rounded-lg font-bold text-sm bg-primary text-white md:text-lg "
-            >
-              Comprar ahora
-            </button>
+            {!isBuy && (
+              <button
+                onClick={HandleModal}
+                className="w-full border-2 p-4 rounded-lg font-bold text-sm bg-primary text-white md:text-lg "
+              >
+                Comprar ahora
+              </button>
+            )}
+            {isBuy && (
+              <button
+                onClick={() => {}}
+                className="w-full border-2 p-4 rounded-lg font-bold text-sm bg-primary text-white md:text-lg "
+              >
+                Ver curso
+              </button>
+            )}
+
             <Link href={`/course/${item.id}`}>
               <a className="">
                 <button className="w-full border-2 p-4 rounded-lg font-bold text-sm  border-primary text-primary   md:text-lg ">
