@@ -2,7 +2,6 @@ import Image from "next/image";
 import React from "react";
 
 export default function Author({ tutor }) {
-  console.log(tutor);
   return (
     <section className="mb-0 w-full flex items-center my-5 gap-3">
       {

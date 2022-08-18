@@ -64,10 +64,15 @@ const CardBootcamp = ({ item }) => {
 };
 
 const CardCourse = (props) => {
-  console.log("props", props);
-
   const item = props.item;
   const Status = item.metadata.Status;
+
+  const HandleModal = () => {
+    window.scrollTo(0, 0);
+    props.setSelectedItem(item);
+    props.setShowModal(true);
+  };
+
   return (
     <>
       <section className=" hidden md:flex bg-white  md:w-[95%] md:h-[400px] m-4 md:m-6 shadow-lg rounded-lg overflow-hidden justify-around p-2 ">
@@ -93,10 +98,7 @@ const CardCourse = (props) => {
             </Link>
             <a className=" hidden sm:block sm:w-full">
               <button
-                onClick={() => {
-                  props.setSelectedItem(item);
-                  props.setShowModal(true);
-                }}
+                onClick={HandleModal}
                 className="w-full p-[9px] lg:p-3  border-2 rounded-lg font-bold text-sm bg-primary text-white md:text-lg   hover:text-white hover:font-black hover:border-primary transition duration-150 ease-out hover:ease-in "
               >
                 Comprar ahora
@@ -141,10 +143,7 @@ const CardCourse = (props) => {
         <div className="min-h-1/6 ">
           <div className="flex flex-col gap-3 h-full ">
             <button
-              onClick={() => {
-                props.setSelectedItem(item);
-                props.setShowModal(true);
-              }}
+              onClick={HandleModal}
               className="w-full border-2 p-4 rounded-lg font-bold text-sm bg-primary text-white md:text-lg "
             >
               Comprar ahora

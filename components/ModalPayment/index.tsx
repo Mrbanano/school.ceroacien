@@ -1,7 +1,60 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Payment } from "../../utils/Payment";
+import { PaymentMeli } from "../../utils/PaymentMeli";
+import Classes from "./Spinner.module.css";
+
+import { useSession } from "next-auth/react";
 
 export default function Index({ show, handleCloseModal, course }) {
+  const [ShowMeli, setShowMeli] = React.useState(false);
+  const [Info, setInfo] = React.useState({
+    id: "",
+    Payer: {
+      Name: "",
+      email: "",
+    },
+    items: [
+      {
+        id: "",
+        title: "",
+        description: "",
+        picture_url: "",
+        quantity: 1,
+        unit_price: 1,
+      },
+    ],
+  });
+  const [Loading, setLoading] = React.useState(false);
+  const { data: session, status } = useSession();
+
+  useEffect(() => {
+    setInfo({
+      id: course?.id,
+      Payer: {
+        Name: session?.user?.name,
+        email: session?.user?.email,
+      },
+      items: [
+        {
+          id: course?.id,
+          title: course?.name,
+          description: course?.description,
+          picture_url: course?.images[0],
+          quantity: 1,
+          unit_price: Number(course?.default_price.unit_amount / 100),
+        },
+      ],
+    });
+  }, [course]);
+
+  const Paymentmeli = async () => {
+    setLoading(true);
+
+    const payment = await PaymentMeli(Info);
+
+    await redirectToMercadoPago(payment.id, setLoading);
+  };
+
   return (
     <>
       {show ? (
@@ -51,12 +104,16 @@ export default function Index({ show, handleCloseModal, course }) {
               </button>
               <button
                 className="border-2 border-black/50 w-full flex items-center justify-between p-1 px-3 rounded-lg"
-                onClick={() => {
-                  alert(JSON.stringify(course));
-                }}
+                onClick={Paymentmeli}
               >
-                <h2 className="font-semibold text-base">Mercado Pago</h2>
-                <div className=" h-[50px] w-[50px]">
+                <div>
+                  {!ShowMeli && !Loading && (
+                    <h2 className="font-semibold text-base">Mercado Pago</h2>
+                  )}
+                  {!ShowMeli && Loading && <Spinner></Spinner>}
+                  {ShowMeli && !Loading && <div className="mp-container"></div>}
+                </div>
+                <div className="h-[50px] w-[50px]">
                   <img
                     src={"https://i.postimg.cc/3JyqpsYY/mercadopago-1.png"}
                     alt="Profile"
@@ -73,3 +130,52 @@ export default function Index({ show, handleCloseModal, course }) {
     </>
   );
 }
+
+const Spinner = () => (
+  <div className={Classes.ldsRing}>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+);
+
+export const redirectToMercadoPago = (preferenceId: string, setLoading) => {
+  const loadScript = (url: string, callback: () => void) => {
+    let script = document.createElement("script");
+    script.type = "text/javascript";
+
+    if (script.readyState) {
+      script.onreadystatechange = () => {
+        if (
+          script.readyState === "loaded" ||
+          script.readyState === "complete"
+        ) {
+          script.onreadystatechange = null;
+          callback();
+        }
+      };
+    } else {
+      script.onload = () => callback();
+    }
+    script.src = url;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  };
+  const handleScriptLoad = () => {
+    const mp = new window.MercadoPago(
+      "TEST-0c5f9b79-d068-4e5c-9c19-3db581ec70e6",
+      {
+        locale: "es-MX",
+      }
+    );
+    mp.checkout({
+      preference: {
+        id: preferenceId,
+      },
+      autoOpen: true,
+    });
+  };
+
+  setLoading(false);
+  loadScript("https://sdk.mercadopago.com/js/v2", handleScriptLoad);
+};

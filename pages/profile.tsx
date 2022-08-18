@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-//import Loading from "../components/Loading";
-//import ErrorMessage from "../components/ErrorMessage";
 import Link from "next/link";
 import { CeroacienInstances } from "../config";
 import Head from "next/head";
@@ -8,10 +6,13 @@ import { getContentProfile } from "../utils/getContentProfile";
 import { getSession, useSession } from "next-auth/react";
 import Redirect from "../components/Redirect";
 import Spinner from "../components/Spinner";
+import Router, { useRouter } from "next/router";
 
-export default function Profile() {
+export default function Profile({ user }) {
   const { data: session, status } = useSession();
   const isLoading = status === "loading";
+
+  console.log(user);
 
   // When rendering client side don't display anything until loading is complete
   if (typeof window !== "undefined" && isLoading)
@@ -200,6 +201,24 @@ const WraperCourse = () => {
   const [courses, setcourses] = useState([]);
   const [loading, setloading] = useState(false);
 
+  const { asPath } = useRouter();
+
+  useEffect(() => {
+    const info = asPath.split("?")[1] === undefined;
+    if (!info) {
+      const params = asPath?.split("?")[1]?.split("&");
+      const indexOfCourse = params?.findIndex((param) =>
+        param.includes("external_reference")
+      );
+      const course = params?.[indexOfCourse]?.split("=")[1];
+      (async () => {
+        console.log(session.user.email, course);
+        await (session.user.email, course);
+      })();
+      Router.push("/profile");
+    }
+  }, []);
+
   useEffect(() => {
     setloading(true);
     getContentProfile(user?.email).then((res) => {
@@ -300,3 +319,11 @@ const CouseItem: React.FC<CouseItemProps> = ({ courses }) => {
     </Link>
   );
 };
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  return {
+    props: { user: session?.user },
+  };
+}

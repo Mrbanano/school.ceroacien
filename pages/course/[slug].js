@@ -15,6 +15,9 @@ import { useRouter } from "next/router";
 import { getCourseDetail } from "../../utils/getCourseDetail";
 import ModalPayment from "../../components/ModalPayment";
 
+import { CheckIfCourseIsBuy } from "../../utils/checkIfCourseIsBuy";
+import { useSession } from "next-auth/react";
+
 export default function index() {
   const [Loading, setLoading] = useState(true);
   const [course, setCourse] = useState({});
@@ -28,6 +31,7 @@ export default function index() {
 
   useEffect(() => {
     (async () => {
+      if (id === "[slug]") return;
       setLoading(true);
       const data = await getCourseDetail(id);
       setCourse(data);
@@ -42,12 +46,14 @@ export default function index() {
         <meta name="description" content={course.descripcion} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <ModalPayment
-        show={showModal}
-        handleCloseModal={handleCloseModal}
-        course={course}
-      />
-      ;
+      {!Loading && (
+        <ModalPayment
+          show={showModal}
+          handleCloseModal={handleCloseModal}
+          course={course}
+        />
+      )}
+
       <main
         className={`${
           showModal ? "max-h-[75vh] overflow-hidden" : ""
@@ -124,6 +130,7 @@ const CourseInfo = ({ course, handleCloseModal, show }) => {
         <CourseInformation course={course} />
         <Mentor mentor={course?.extra?.tutor} />
         <Pricing
+          id={course.id}
           price={course?.default_price}
           handleCloseModal={handleCloseModal}
           show={show}
@@ -180,8 +187,21 @@ const CourseInformation = ({ course }) => {
   );
 };
 
-const Pricing = ({ price, handleCloseModal, show }) => {
+const Pricing = ({ id, price, handleCloseModal, show }) => {
   const [isBuy, setIsBuy] = useState(false);
+  const { data: session, status } = useSession();
+  useEffect(() => {
+    (async () => {
+      console.log("montando boton");
+      if (status === "loading") return;
+      try {
+        const state = await CheckIfCourseIsBuy(session.user.email, id);
+        setIsBuy(state);
+      } catch (error) {
+        setIsBuy(false);
+      }
+    })();
+  }, [id]);
   return (
     <div className="sm:order-1 sm:mb-7">
       <div className="pt-20 pb-5 sm:pt-0">
@@ -198,7 +218,7 @@ const Pricing = ({ price, handleCloseModal, show }) => {
             }}
             className="border-2 border-primary bg-primary text-white w-full font-semibold px-3 py-4 hover:bg-white hover:text-primary"
           >
-            Ver video
+            Ver curso
           </button>
         ) : (
           <button
