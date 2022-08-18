@@ -144,13 +144,22 @@ export const redirectToMercadoPago = (preferenceId: string, setLoading) => {
   const loadScript = (url: string, callback: () => void) => {
     let script = document.createElement("script");
     script.type = "text/javascript";
-
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     if (script.readyState) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       script.onreadystatechange = () => {
         if (
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           script.readyState === "loaded" ||
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           script.readyState === "complete"
         ) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
           script.onreadystatechange = null;
           callback();
         }
@@ -162,6 +171,8 @@ export const redirectToMercadoPago = (preferenceId: string, setLoading) => {
     document.getElementsByTagName("head")[0].appendChild(script);
   };
   const handleScriptLoad = () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const mp = new window.MercadoPago(
       "TEST-0c5f9b79-d068-4e5c-9c19-3db581ec70e6",
       {
