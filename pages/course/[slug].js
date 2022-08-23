@@ -10,8 +10,8 @@ import TemaryIcon from "../../components/Icon/TemaryIcon";
 import { CourseInfo as Description } from "../../components/CourseInfo";
 
 import Image from "next/image";
-import { Payment } from "../../utils/Payment";
-import { useRouter } from "next/router";
+
+import Router, { useRouter } from "next/router";
 import { getCourseDetail } from "../../utils/getCourseDetail";
 import ModalPayment from "../../components/ModalPayment";
 
@@ -71,7 +71,12 @@ export default function index() {
                 show={showModal}
               />
             </WraperCourseInfo>
-            <Banner price={course.default_price} />
+            <Banner
+              id={course.id}
+              price={course?.default_price}
+              handleCloseModal={handleCloseModal}
+              show={showModal}
+            />
             <WrapperCourseContent>
               <HeaderCourse course={course} />
               <DescriptionSection course={course} />
@@ -87,6 +92,14 @@ export default function index() {
 const WrapperCourseContent = ({ children }) => {
   return (
     <section className="sm:w-4/6 relative min-h-screen">{children}</section>
+  );
+};
+
+const WraperCourseInfo = ({ children }) => {
+  return (
+    <section className="sm:max-w-[300px] sm:order-1 sm:w-2/6 sm:sticky sm:top-24 sm:border-4 sm:border-white bg-white sm:shadow-lg z-10">
+      {children}
+    </section>
   );
 };
 
@@ -123,7 +136,7 @@ const HeroCourse = ({ media, type = "video" }) => {
 
 const CourseInfo = ({ course, handleCloseModal, show }) => {
   return (
-    <section className=" flex flex-col gap-2 px-[2.4rem] py-4 sm:px-3">
+    <section className="flex flex-col gap-2 px-[2.4rem] py-4 sm:px-3">
       <h1 className="text-2xl font-semibold sm:hidden">{course.name}</h1>
       <p className="font-light text-base sm:hidden">{course.description}</p>
       <CourseContent>
@@ -214,7 +227,7 @@ const Pricing = ({ id, price, handleCloseModal, show }) => {
         {isBuy ? (
           <button
             onClick={() => {
-              //Payment(price);
+              Router.push("/clases/" + id);
             }}
             className="border-2 border-primary bg-primary text-white w-full font-semibold px-3 py-4 hover:bg-white hover:text-primary"
           >
@@ -235,7 +248,7 @@ const Pricing = ({ id, price, handleCloseModal, show }) => {
   );
 };
 
-const Banner = ({ price }) => {
+const Banner = ({ id, price, handleCloseModal, show }) => {
   return (
     <div className="border-t-2 border-gray-100 fixed w-full bottom-0 bg-white shadow-md flex justify-between items-center gap-2 py-2 px-4 md:hidden z-50">
       <div className="W-1/3 ">
@@ -246,7 +259,7 @@ const Banner = ({ price }) => {
       </div>
       <button
         onClick={() => {
-          Payment(price);
+          handleCloseModal(show);
         }}
         className="bg-primary text-white w-2/3 font-semibold px-4 py-4"
       >
@@ -298,14 +311,6 @@ const DescriptionSection = ({ course }) => {
   return (
     <section className="my-12 p-0">
       <Description descripcion={course.description} type="detail" />
-    </section>
-  );
-};
-
-const WraperCourseInfo = ({ children }) => {
-  return (
-    <section className="sm:max-w-[300px] sm:order-1 sm:w-2/6 sm:sticky sm:top-24 sm:border-4 sm:border-white bg-white sm:shadow-lg z-10">
-      {children}
     </section>
   );
 };

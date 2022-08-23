@@ -73,7 +73,7 @@ const Banner = ({ children }) => {
   return (
     <section className="pt-10 md:pt-0 w-screen h-[75vh] md:h-[75vh] bg-gradient-to-r from-Extraordinariosbg1 to-Extraordinariosbg2">
       <div
-        className="w-full h-full"
+        className="w-full h-full animate-[fondoAnim_20_alternate_infinite]"
         style={{
           backgroundImage: `url(
           "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' height='100%25' width='100%25'%3E%3Cdefs%3E%3Cpattern id='doodad' width='78' height='78' viewBox='0 0 40 40' patternUnits='userSpaceOnUse' patternTransform='rotate(180)'%3E%3Crect width='100%25' height='100%25' fill='rgba(42, 67, 101,0)'/%3E%3Cpath d='M0 40h-10v-60h60L40 0L39 1h-38v38z' fill='rgba(247, 250, 252,0)'/%3E%3Cpath d='M40 0v10h60v60L0 40L1 39h38v-38z' fill='rgba(247, 250, 252,0.1)'/%3E%3Cpath d='M40 0v10h60v60L0 40L0 40h40v-40z' fill='rgba(247, 250, 252,0)'/%3E%3Cpath d='M0 40h-10v-60h60L40 0L40 0h-40v40z' fill='rgba(247, 250, 252,0.1)'/%3E%3C/pattern%3E%3C/defs%3E%3Crect fill='url(%23doodad)' height='200%25' width='200%25'/%3E%3C/svg%3E "

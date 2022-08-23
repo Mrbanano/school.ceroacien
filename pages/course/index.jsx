@@ -16,8 +16,9 @@ export default function index() {
     "Python",
     "JavaScript",
   ]);
-
   const toggle = () => setIsOpen(!isOpen);
+
+  console.log("nextauthurl", process.env.NEXTAUTH_URL);
 
   useEffect(() => {
     (async () => {

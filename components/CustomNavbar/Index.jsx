@@ -17,17 +17,19 @@ const Links = [
     id: "Home",
   },
   {
-    name: "Recursos",
-    href: "/content",
-    id: "Resources",
-  },
-  {
     name: "Cursos",
     href: "/course",
+    id: "Course",
   },
   {
     name: "Podcasts",
     href: "/podcast",
+    id: "Podcast",
+  },
+  {
+    name: "Eventos",
+    href: "/events",
+    id: "events",
   },
 ];
 

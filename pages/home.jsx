@@ -153,15 +153,6 @@ const ItemInfo = [
 
 const BootcampItems = [
   {
-    _id: "62abbcdfad9cd6b670d088f7",
-    id: "1",
-    title: "Uniworkshop",
-    description:
-      "Descubre que carrera es la más adecuada de acuerdo con tus habilidades",
-    image: "https://i.postimg.cc/bNW5Wg8Q/Frame-11.png",
-    slug: "uniworkshop",
-  },
-  {
     _id: "62abc4479cd75edec6b1a400",
     id: "2",
     title: "Desarrollo Web",
@@ -171,6 +162,15 @@ const BootcampItems = [
     slug: "frontend",
     createdAt: "2022-06-17T00:01:11.507Z",
     updatedAt: "2022-06-17T00:01:11.507Z",
+  },
+  {
+    _id: "62abbcdfad9cd6b670d088f7",
+    id: "1",
+    title: "Softskills for Developers",
+    description:
+      "Descubre que carrera es la más adecuada de acuerdo con tus habilidades",
+    image: "https://i.postimg.cc/bNW5Wg8Q/Frame-11.png",
+    slug: "uniworkshop",
   },
   {
     _id: "62abc4799cd75edec6b1a403",
