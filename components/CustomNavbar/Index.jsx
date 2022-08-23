@@ -26,11 +26,6 @@ const Links = [
     href: "/podcast",
     id: "Podcast",
   },
-  {
-    name: "Eventos",
-    href: "/events",
-    id: "events",
-  },
 ];
 
 const LinksMobile = [

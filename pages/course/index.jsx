@@ -18,8 +18,6 @@ export default function index() {
   ]);
   const toggle = () => setIsOpen(!isOpen);
 
-  console.log("nextauthurl", process.env.NEXTAUTH_URL);
-
   useEffect(() => {
     (async () => {
       try {
@@ -34,9 +32,9 @@ export default function index() {
     })();
   }, []);
 
-  console.log("vercel url", process.env.VERCEL_URL);
-  console.log("next url", process.env.NEXT_PUBLIC_VERCEL_URL);
-  console.log("auth0 url", process.env.AUTH0_BASE_URL);
+  console.log("-> vercel url", process.env.VERCEL_URL);
+  console.log("-> next url", process.env.NEXT_PUBLIC_VERCEL_URL);
+  console.log("-> nextauthurl", process.env.NEXTAUTH_URL);
 
   const Search = ({ target }) => {
     const search = target.outerText;
