@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
+import Router from "next/router";
 import React, { useEffect, useState } from "react";
 import { CheckIfCourseIsBuy } from "../../utils/checkIfCourseIsBuy";
 
@@ -125,7 +126,9 @@ const CardCourse = (props) => {
             {isBuy && (
               <a className=" hidden sm:block sm:w-full">
                 <button
-                  onClick={() => {}}
+                  onClick={() => {
+                    Router.push("/clases/" + item.id);
+                  }}
                   className="w-full p-[9px] lg:p-3  border-2 rounded-lg font-bold text-sm bg-primary text-white md:text-lg   hover:text-white hover:font-black hover:border-primary transition duration-150 ease-out hover:ease-in "
                 >
                   Ver curso
@@ -180,7 +183,9 @@ const CardCourse = (props) => {
             )}
             {isBuy && (
               <button
-                onClick={() => {}}
+                onClick={() => {
+                  Router.push("/clases/" + item.id);
+                }}
                 className="w-full border-2 p-4 rounded-lg font-bold text-sm bg-primary text-white md:text-lg "
               >
                 Ver curso
