@@ -265,6 +265,7 @@ const VideoDescription = ({ Title, Description }) => {
 
 export async function getServerSideProps(context) {
   const courseID = context.params.player;
+  console.log("imprime esto plis", courseID);
   const { data } = await getAllClasseByCourse(courseID);
   const resp = await getCourseDetail(courseID);
 
