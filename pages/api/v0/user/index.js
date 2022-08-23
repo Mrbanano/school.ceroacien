@@ -20,6 +20,7 @@ export default async function handler(req, res) {
           Email: user.email,
           Name: user.name,
           Picture: user.image,
+          Courses: ["prod_MGtPRT6Ot4HsJT"],
         }).save();
         console.log("new user created");
         return res.status(200).json({

@@ -1,40 +1,40 @@
-import { Schema, model, models } from 'mongoose';
+import { Schema, model, models } from "mongoose";
 
 const schema = new Schema({
   Email: {
     type: String,
     required: true,
-    unique: true
+    unique: true,
   },
   Name: {
     type: String,
-    required: true
+    required: true,
   },
   LastName: {
-    type: String
+    type: String,
   },
   Picture: {
     type: String,
-    required: true
+    required: true,
   },
   Rol: {
     type: String,
-    default: 'user'
+    default: "user",
   },
   Type: {
     type: String,
-    default: 'Free'
+    default: "Free",
   },
   Courses: [
     {
-      type: String
-    }
+      type: String,
+    },
   ],
   Bootcamps: [
     {
-      type: String
-    }
-  ]
+      type: String,
+    },
+  ],
 });
 
-export default models.User || model('User', schema);
+export default models.User || model("User", schema);
