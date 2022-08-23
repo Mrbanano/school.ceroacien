@@ -4,62 +4,74 @@ import { useEffect, useState } from "react";
 import { getAllClasseByCourse } from "../../utils/getAllClasseByCourse";
 import { getCourseDetail } from "../../utils/getCourseDetail";
 
-export default function Player({ clases, course }) {
-  const { data } = clases;
+export default function Player({ course }) {
+  //const { data } = clases;
 
+  //States
+  const [isLoading, setIsLoading] = useState(true);
+  const [clases, setClases] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentClase, setCurrentClase] = useState(data[currentIndex]);
+  const [currentClase, setCurrentClase] = useState(null);
 
   const ChangeClase = (index) => {
     setCurrentIndex(index);
     setCurrentClase(data[index]);
   };
 
-  /*const { asPath } = useRouter();
+  const { asPath } = useRouter();
   const courseID = asPath.split("/")[2];
-
-  //States
-  const [clases, setClases] = useState([]);
 
   useEffect(() => {
     if (courseID === "[player]") return;
     (async () => {
-      const data = await getAllClasseByCourse(courseID);
-      setClases(data.data);
+      try {
+        const { data } = await getAllClasseByCourse(courseID);
+        setClases(data);
+        setCurrentClase(data[currentIndex]);
+        setIsLoading(false);
+      } catch (error) {
+        setClases([]);
+        setIsLoading(false);
+      }
     })();
     //preguntar si el curso esta comprado
     //si no esta comprado, mostrar modal de pago
     //si esta comprado, mostrar solo las clases que estan disponibles
-  }, [asPath]);*/
+  }, [asPath]);
 
   return (
     <>
-      <Head>
-        <title>{currentClase.title} | ceroacien |</title>
-      </Head>
-      <Wrappper>
-        <WrapperPlayer>
-          <VideoContainer>
-            <VideoPlayer src={currentClase.assets.player} />
-          </VideoContainer>
-          <CourseDescription course={course} />
-          <VideoDescriptionWrapper>
-            <VideoDescription
-              Title={currentClase.title}
-              Description={currentClase.description}
-            />
-          </VideoDescriptionWrapper>
-        </WrapperPlayer>
-        <WrapperPlayList>
-          <PlayListContainer>
-            <VideoPlaylistItems
-              clases={data}
-              currentIndex={currentIndex}
-              ChangeClase={ChangeClase}
-            />
-          </PlayListContainer>
-        </WrapperPlayList>
-      </Wrappper>
+      {isLoading && <div>Cargando...</div>}
+      {!isLoading && (
+        <>
+          <Head>
+            <title>{currentClase.title} | ceroacien |</title>
+          </Head>
+          <Wrappper>
+            <WrapperPlayer>
+              <VideoContainer>
+                <VideoPlayer src={currentClase.assets.player} />
+              </VideoContainer>
+              <CourseDescription course={course} />
+              <VideoDescriptionWrapper>
+                <VideoDescription
+                  Title={currentClase.title}
+                  Description={currentClase.description}
+                />
+              </VideoDescriptionWrapper>
+            </WrapperPlayer>
+            <WrapperPlayList>
+              <PlayListContainer>
+                <VideoPlaylistItems
+                  clases={clases}
+                  currentIndex={currentIndex}
+                  ChangeClase={ChangeClase}
+                />
+              </PlayListContainer>
+            </WrapperPlayList>
+          </Wrappper>
+        </>
+      )}
     </>
   );
 }
@@ -265,7 +277,6 @@ const VideoDescription = ({ Title, Description }) => {
 
 export async function getServerSideProps(context) {
   const courseID = context.params.player;
-  console.log("imprime esto plis", courseID);
   const { data } = await getAllClasseByCourse(courseID);
   const resp = await getCourseDetail(courseID);
 

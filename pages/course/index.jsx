@@ -4,8 +4,11 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { CeroacienInstances } from "../../config";
+import { getSession } from "next-auth/react";
+import { unstable_getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]";
 
-export default function index() {
+export default function index({ session, session2 }) {
   //custom hook
   const [course, setcourse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -32,8 +35,8 @@ export default function index() {
     })();
   }, []);
 
-  console.log("-> vercel url", process.env.VERCEL_URL);
-  console.log("-> next url", process.env.NEXT_PUBLIC_VERCEL_URL);
+  console.log("getSession", session);
+  console.log("unstable_getServerSession", session2);
   console.log("-> nextauthurl", process.env.NEXTAUTH_URL);
 
   const Search = ({ target }) => {
@@ -322,3 +325,16 @@ const CourseItemLoading = ({ course }) => {
     </div>
   );
 };
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  const session2 = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+
+  return {
+    props: { session: session?.user, session2: session2?.user },
+  };
+}
