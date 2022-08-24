@@ -3,19 +3,21 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { getAllClasseByCourse } from "../../utils/getAllClasseByCourse";
 import { getCourseDetail } from "../../utils/getCourseDetail";
+import Router from "next/router";
 
-export default function Player({ course }) {
+export default function Player() {
   //const { data } = clases;
 
   //States
   const [isLoading, setIsLoading] = useState(true);
   const [clases, setClases] = useState([]);
+  const [course, setCourse] = useState();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentClase, setCurrentClase] = useState(null);
 
   const ChangeClase = (index) => {
     setCurrentIndex(index);
-    setCurrentClase(data[index]);
+    setCurrentClase(clases[index]);
   };
 
   const { asPath } = useRouter();
@@ -26,12 +28,16 @@ export default function Player({ course }) {
     (async () => {
       try {
         const { data } = await getAllClasseByCourse(courseID);
+        const resp = await getCourseDetail(courseID);
         setClases(data);
+        setCourse(resp);
         setCurrentClase(data[currentIndex]);
         setIsLoading(false);
       } catch (error) {
         setClases([]);
+        setCourse([]);
         setIsLoading(false);
+        Router.push(`/course/${courseID}`);
       }
     })();
     //preguntar si el curso esta comprado
@@ -41,7 +47,7 @@ export default function Player({ course }) {
 
   return (
     <>
-      {isLoading && <div>Cargando...</div>}
+      {isLoading && <LoadingPage />}
       {!isLoading && (
         <>
           <Head>
@@ -76,6 +82,56 @@ export default function Player({ course }) {
   );
 }
 
+const LoadingPage = () => {
+  return (
+    <>
+      <Head>
+        <title>Tu curso esta cargando | ceroacien |</title>
+      </Head>
+      <Wrappper>
+        <WrapperPlayer>
+          <VideoContainer>
+            <div className="w-full h-full animate-pulse bg-gray-200 "></div>
+          </VideoContainer>
+          <div className="animate-pulse  w-full px-2 py-2 flex items-center gap-3 md:gap-5 max-h-[86px]">
+            <div className="h-9 w-9 rounded-full bg-gray-200"></div>
+            <div className="bg-gray-200 animate-pulse w-1/2   flex items-center max-w-[80%]  max-h-[48px] overflow-hidden">
+              <div className="h-[1.25rem]"></div>
+            </div>
+          </div>
+          <VideoDescriptionWrapper>
+            <div className="py-5 animate-pulse">
+              <div className="bg-gray-200 animate-pulse w-5/6  flex items-center max-w-[80%]  max-h-[48px] overflow-hidden">
+                <div className="h-[2rem]"></div>
+              </div>
+            </div>
+          </VideoDescriptionWrapper>
+        </WrapperPlayer>
+        <WrapperPlayList>
+          <PlayListContainer>
+            {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
+              <div
+                key={item}
+                className=" animate-pulse flex w-full h-[94px] relative z-0 border-2 border-transparent"
+              >
+                <div className="animate-pulse z-0 border-2 border-transparent h-full aspect-video bg-gray-200"></div>
+                <div className="ml-2 w-1/2 flex flex-col gap-2 justify-center ">
+                  <div className="bg-gray-200 animate-pulse w-5/6 border-2  flex items-center max-w-[80%]  max-h-[13px] overflow-hidden">
+                    <div className="h-[0.5rem]"></div>
+                  </div>
+                  <div className="bg-gray-200 animate-pulse w-5/6 border-2  flex items-center max-w-[80%]  max-h-[20px] overflow-hidden">
+                    <div className="h-[2rem]"></div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </PlayListContainer>
+        </WrapperPlayList>
+      </Wrappper>
+    </>
+  );
+};
+
 const Wrappper = ({ children }) => {
   return (
     <main className=" relative max-w-screen-xl mx-auto flex flex-col items-stretch justify-evenly py-5 sm:bg-white md:flex-row md:gap-4">
@@ -107,7 +163,7 @@ const VideoDescriptionWrapper = ({ children }) => {
 
 const VideoContainer = ({ children }) => {
   return (
-    <section className="border-2 border-black bg-white w-full aspect-video">
+    <section className="border-2 border-transparent bg-white w-full aspect-video">
       {children}
     </section>
   );
@@ -275,7 +331,7 @@ const VideoDescription = ({ Title, Description }) => {
   );
 };
 
-export async function getServerSideProps(context) {
+/*export async function getServerSideProps(context) {
   const courseID = context.params.player;
   const { data } = await getAllClasseByCourse(courseID);
   const resp = await getCourseDetail(courseID);
@@ -297,4 +353,4 @@ export async function getServerSideProps(context) {
       },
     },
   };
-}
+}*/
