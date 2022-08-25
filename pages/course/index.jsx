@@ -4,11 +4,8 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { CeroacienInstances } from "../../config";
-import { getSession } from "next-auth/react";
-import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]";
 
-export default function index({ session, session2 }) {
+export default function index() {
   //custom hook
   const [course, setcourse] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -34,10 +31,6 @@ export default function index({ session, session2 }) {
       }
     })();
   }, []);
-
-  console.log("getSession", session);
-  console.log("unstable_getServerSession", session2);
-  console.log("-> nextauthurl", process.env.NEXTAUTH_URL);
 
   const Search = ({ target }) => {
     const search = target.outerText;
@@ -325,16 +318,3 @@ const CourseItemLoading = ({ course }) => {
     </div>
   );
 };
-
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  const session2 = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  );
-
-  return {
-    props: { session: session?.user, session2: session2?.user },
-  };
-}

@@ -36,6 +36,7 @@ export default function Player() {
       } catch (error) {
         setClases([]);
         setCourse([]);
+        console.log(error);
         setIsLoading(false);
         Router.push(`/course/${courseID}`);
       }

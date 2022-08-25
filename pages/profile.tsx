@@ -3,7 +3,7 @@ import Link from "next/link";
 import { CeroacienInstances } from "../config";
 import Head from "next/head";
 import { getContentProfile } from "../utils/getContentProfile";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Redirect from "../components/Redirect";
 import Spinner from "../components/Spinner";
 import Router, { useRouter } from "next/router";
@@ -319,11 +319,3 @@ const CouseItem: React.FC<CouseItemProps> = ({ courses }) => {
     </Link>
   );
 };
-
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-
-  return {
-    props: { user: session?.user },
-  };
-}

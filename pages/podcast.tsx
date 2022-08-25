@@ -93,7 +93,7 @@ const SocialItem = [
   },
   {
     icon: "https://i.postimg.cc/QdjvTyVd/youtube-ceroacien.png",
-    link: "https://www.youtube.com/c/PlaygroundLab",
+    link: "https://www.youtube.com/c/ceroacien-io",
   },
   {
     icon: "https://i.postimg.cc/8CSQtzyN/spotify-ceroacien.png",
@@ -132,14 +132,14 @@ const Wrapper = ({ children }) => {
 const Player = () => {
   return (
     <Wrapper>
-      <section className="z-30 p-6 md:p-0 mt-[-100px] max-w-3xl mx-auto">
+      <section className="z-30 p-6 md:p-0 mt-[-100px] max-w-3xl mx-auto bg-PodcastBg mb-10">
         <iframe
           src="https://www.ivoox.com/player_es_podcast_1440123_zp_1.html"
           width="100%"
           height="400"
           frameBorder="0"
           className="z-30 rounded-xl overflow-hidden "
-          style={{ backgroundColor: "#fff" }}
+          style={{ backgroundColor: "#424242" }}
           scrolling="no"
           loading="lazy"
         ></iframe>

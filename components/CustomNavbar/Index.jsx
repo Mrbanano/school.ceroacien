@@ -22,7 +22,7 @@ const Links = [
     id: "Course",
   },
   {
-    name: "Podcasts",
+    name: "Podcast",
     href: "/podcast",
     id: "Podcast",
   },
