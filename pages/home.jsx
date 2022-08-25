@@ -8,16 +8,9 @@ import { useSession } from "next-auth/react";
 import Spinner from "../components/Spinner";
 import Redirect from "../components/Redirect";
 
-import { unstable_getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]";
-
 import ModalPayment from "../components/ModalPayment";
 
-export default function Home({
-  Bootcamp = BootcampItems,
-  userServer,
-  CoursesServer,
-}) {
+export default function Home({ Bootcamp = BootcampItems, userServer }) {
   const [Courses, setCourses] = useState([]);
   const { data: session, status } = useSession();
   const [user, setuser] = useState(session?.user);
@@ -31,7 +24,6 @@ export default function Home({
   };
 
   console.log("server user", userServer);
-  console.log("server courses", CoursesServer);
 
   //Create a
   useEffect(() => {
@@ -47,7 +39,6 @@ export default function Home({
     (async () => {
       try {
         const res = await CeroacienInstances("/courses");
-        console.log("respuesta", res.data.data);
         setCourses(res.data.data);
       } catch (error) {
         setCourses([]);
@@ -195,17 +186,3 @@ const BootcampItems = [
     updatedAt: "2022-06-17T00:02:01.352Z",
   },
 ];
-
-export async function getServerSideProps(context) {
-  const session = await unstable_getServerSession(
-    context.req,
-    context.res,
-    authOptions
-  );
-
-  const res = await CeroacienInstances("/courses");
-
-  return {
-    props: { userServer: session?.user, CoursesServer: res.data.data },
-  };
-}
