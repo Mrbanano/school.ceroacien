@@ -18,7 +18,11 @@
     "Lluis Agusti <hi@llu.lu>"
   ],
   "dependencies": {
+    "framer-motion": "7.2.1",
+    "react-intersection-observer": "^9.4.0",
+    "canvas-confetti": "^1.4.0",
     "@api.video/nodejs-client": "^2.2.8",
+    "@typeform/embed-react": "^1.19.0",
     "axios": "^0.27.2",
     "mercadopago": "^1.5.14",
     "micro": "^9.4.1",

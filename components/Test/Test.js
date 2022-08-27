@@ -30,18 +30,18 @@ export default function Test({ questionnaire = [], evalfuncion, title }) {
       const Result = evalfuncion(responses);
 
       if (Result > 0 && Result <= 69)
-        router.push(`/elige-los-mejores-cursos-para-ti/Buscador-de-la-verdad`);
+        router.push(`/cuales-cursos-son-para-mi/Buscador-de-la-verdad`);
       if (Result >= 70 && Result <= 72)
         router.push(
-          `/elige-los-mejores-cursos-para-ti/Una-gran-historia-por-contantar`
+          `/cuales-cursos-son-para-mi/Una-gran-historia-por-contantar`
         );
       if (Result >= 73 && Result <= 78)
         router.push(
-          `/elige-los-mejores-cursos-para-ti/Creando-un-camino-donde-no-lo-hay`
+          `/cuales-cursos-son-para-mi/Creando-un-camino-donde-no-lo-hay`
         );
       if (Result >= 79)
         router.push(
-          `/elige-los-mejores-cursos-para-ti/Construyendo-un-mejor-futuro-para-todos`
+          `/cuales-cursos-son-para-mi/Construyendo-un-mejor-futuro-para-todos`
         );
     }
   }, [finished]);

@@ -5,6 +5,9 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { CeroacienInstances } from "../../config";
 
+import { useAnimation, motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+
 export default function index() {
   //custom hook
   const [course, setcourse] = useState([]);
@@ -287,19 +290,40 @@ const Empty = (props) => {
 };
 
 const CourseItem = ({ course }) => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
+
   return (
-    <Link key={"course" + course.name} href={`/course/${course.id}`}>
-      <div className="border-2 border-black h-[180px] p-4 flex flex-col justify-between bg-white hover:border-primary">
-        <div className="">
-          <p className="font-light text-sm">Curso</p>
-          <h2 className="font-bold text-lg md:text-sm my-3">{course.name}</h2>
+    <motion.div
+      ref={ref}
+      animate={controls}
+      initial="hidden"
+      variants={CardVariants}
+    >
+      <Link key={"course" + course.name} href={`/course/${course.id}`}>
+        <div className="border-2 border-black h-[180px] p-4 flex flex-col justify-between bg-white hover:border-primary">
+          <div className="">
+            <p className="font-light text-sm">Curso</p>
+            <h2 className="font-bold text-lg md:text-sm my-3">{course.name}</h2>
+          </div>
+          <div className="flex justify-end">
+            <p className="text-xs">Lenguaje: {course.metadata.topic}</p>
+          </div>
         </div>
-        <div className="flex justify-end">
-          <p className="text-xs">Lenguaje: {course.metadata.topic}</p>
-        </div>
-      </div>
-    </Link>
+      </Link>
+    </motion.div>
   );
+};
+
+const CardVariants = {
+  visible: { opacity: 1, scale: 1, transition: { duration: 0.8 } },
+  hidden: { opacity: 0, scale: 1 },
 };
 
 const CourseItemLoading = ({ course }) => {

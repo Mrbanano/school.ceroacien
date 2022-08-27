@@ -1,7 +1,10 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+
+import { useAnimation, motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 
 export default function Podcast() {
   return (
@@ -13,7 +16,7 @@ export default function Podcast() {
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className="bg-bg">
         <Banner>
           <Wrapper>
             <TextHeader>
@@ -37,26 +40,22 @@ export default function Podcast() {
   );
 }
 
+const Wrapper = ({ children }) => {
+  return <section className="max-w-7xl mx-auto h-full">{children}</section>;
+};
+
 const TextHeader = ({ children }) => {
   return (
-    <section className="flex h-full justify-center">
+    <section className="flex h-full justify-center max-h-[500px]">
       <section className="z-10 relative  h-full w-1/6">
-        <div
-          className=" z-10 absolute  top-[-3%] right-[-300%] md:top-[5%] md:right-[-50%]  w-[110px] md:w-full aspect-square"
-          style={{
-            backgroundImage: `url("https://i.postimg.cc/tgY0RRqH/PORTADAPODCAST-1-1.png")`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        ></div>
+        <Rocket />
       </section>
       <section className="z-20  px-5 md:px-0 pb-[90px] md:py-[100px] max-w-3xl h-full mx-auto text-center flex flex-col items-center justify-around gap-3">
         {children}
       </section>
-      <section className=" z-10 relative h-full  w-1/6">
+      <section className=" z-20 relative h-full  w-1/6">
         <div
-          className=" md:z-10 absolute hidden md:block md:bottom-[-3%] md:left-[-50%]   w-full md:h-1/2 md:aspect-square"
+          className="z-20 absolute hidden md:block md:bottom-[-3%] md:left-[-50%]   w-full md:h-1/2 md:aspect-square"
           style={{
             backgroundImage: `url("https://i.postimg.cc/vHdqBr7z/PORTADAPODCAST-1-2-1.png")`,
             backgroundSize: "contain",
@@ -69,9 +68,40 @@ const TextHeader = ({ children }) => {
   );
 };
 
+const Rocket = () => {
+  const controls = useAnimation();
+  const [ref, inView] = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
+    }
+  }, [controls, inView]);
+  return (
+    <motion.div
+      ref={ref}
+      animate={controls}
+      initial="hidden"
+      variants={RocketVariants}
+      className="z-10 absolute  top-[-3%] right-[-300%] md:top-[5%] md:right-[-50%]  w-[110px] md:w-full aspect-square"
+      style={{
+        backgroundImage: `url("https://i.postimg.cc/tgY0RRqH/PORTADAPODCAST-1-1.png")`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    ></motion.div>
+  );
+};
+
 const Banner = ({ children }) => {
   return (
-    <section className="pt-10 md:pt-0 w-screen h-[75vh] md:h-[75vh] bg-gradient-to-r from-Extraordinariosbg1 to-Extraordinariosbg2">
+    <section
+      className="max-h-[500px] relative z-0 pt-10 md:pt-0 w-screen h-[75vh] md:h-[75vh] bg-gradient-to-r from-Extraordinariosbg1 to-Extraordinariosbg2"
+      style={{
+        clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 5vh))",
+      }}
+    >
       <div
         className="w-full h-full animate-[fondoAnim_20_alternate_infinite]"
         style={{
@@ -85,22 +115,6 @@ const Banner = ({ children }) => {
     </section>
   );
 };
-
-const SocialItem = [
-  {
-    icon: "https://i.postimg.cc/mkx52d0R/apple-music-ceroacien.png",
-    link: "https://podcasts.apple.com/mx/podcast/extraordinarios/id1603965937",
-  },
-  {
-    icon: "https://i.postimg.cc/QdjvTyVd/youtube-ceroacien.png",
-    link: "https://www.youtube.com/c/ceroacien-io",
-  },
-  {
-    icon: "https://i.postimg.cc/8CSQtzyN/spotify-ceroacien.png",
-    link: "https://open.spotify.com/show/3GMzMaTmCjXbjoBtStEQaN?si=451358a4b7fa48b2",
-  },
-];
-
 const Social = () => {
   return (
     <div className="flex flex-col gap-3">
@@ -125,14 +139,25 @@ const Social = () => {
   );
 };
 
-const Wrapper = ({ children }) => {
-  return <section className="max-w-7xl mx-auto h-full">{children}</section>;
-};
+const SocialItem = [
+  {
+    icon: "https://i.postimg.cc/mkx52d0R/apple-music-ceroacien.png",
+    link: "https://podcasts.apple.com/mx/podcast/extraordinarios/id1603965937",
+  },
+  {
+    icon: "https://i.postimg.cc/QdjvTyVd/youtube-ceroacien.png",
+    link: "https://www.youtube.com/c/PlaygroundLab",
+  },
+  {
+    icon: "https://i.postimg.cc/8CSQtzyN/spotify-ceroacien.png",
+    link: "https://open.spotify.com/show/3GMzMaTmCjXbjoBtStEQaN?si=451358a4b7fa48b2",
+  },
+];
 
 const Player = () => {
   return (
     <Wrapper>
-      <section className="z-30 p-6 md:p-0 mt-[-100px] max-w-3xl mx-auto bg-PodcastBg mb-10">
+      <section className="relative z-50 p-6 md:p-0 mt-[-100px] max-w-3xl mx-auto bg-PodcastBg mb-10">
         <iframe
           src="https://www.ivoox.com/player_es_podcast_1440123_zp_1.html"
           width="100%"
@@ -146,4 +171,16 @@ const Player = () => {
       </section>
     </Wrapper>
   );
+};
+
+const RocketVariants = {
+  visible: {
+    rotate: 0,
+    x: 0,
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 1 },
+  },
+  hidden: { rotate: -20, x: "150", y: "500", opacity: 0, scale: 0 },
 };

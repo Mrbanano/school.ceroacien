@@ -67,11 +67,18 @@ const HeaderTest = ({ Content }) => {
 };
 
 const Socialshare = () => {
+  const [url, seturl] = useState();
+  const { asPath } = useRouter();
+  console.log(asPath);
+  useEffect(() => {
+    const url = process.env.VERCEL_URL || window.location.host;
+    seturl(url + asPath);
+  }, []);
   return (
     <section className="absolute left-[10%] md:right-[] bottom-[-7%]  mt-10  mx-auto w-[80%] h-[50px] flex justify-center items-center gap-10">
-      <FBShare />
-      <TwitterShare />
-      <LinkedinShare />
+      <FBShare url={url} />
+      <TwitterShare url={url} />
+      <LinkedinShare url={url} />
     </section>
   );
 };
@@ -133,16 +140,10 @@ const FBShare = () => {
   );
 };
 
-const TwitterShare = () => {
-  const [url, seturl] = useState();
-  useEffect(() => {
-    const url = process.env.VERCEL_URL || window.location.host;
-    seturl(url);
-  }, []);
-
+const TwitterShare = ({ url }) => {
   return (
     <a
-      href={`https://twitter.com/intent/tweet?url=https%3A%2F%2F${url}%2Felige-los-mejores-cursos-para-ti%2FBuscador-de-la-verdad&text=Acabo de realizar este Quiz para saber qué cursos son para mí. ¿Por qué no lo intentas?\n \n &via=ceroacien_io`}
+      href={`https://twitter.com/intent/tweet?url=https%3A%2F%2F${url}&text=Acabo de realizar este Quiz para saber qué cursos son para mí. ¿Por qué no lo intentas?\n \n &via=ceroacien_io`}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="share on twitter"
@@ -166,10 +167,11 @@ const TwitterShare = () => {
   );
 };
 
-const LinkedinShare = () => {
+const LinkedinShare = ({ url }) => {
   return (
     <a
-      href="www.linkedin.com/shareArticle?url=https%3A%2F%2Fcodecademy.com%2Fexplore%2Fsorting-quiz%2Fresults%3Fconnector%3D40%26advocator%3D40%26questioner%3D39%26solver%3D35"
+      href={`https://www.linkedin.com/shareArticle?url=https%3A%2F%2F${url}`}
+      target="_blank"
       rel="noopener noreferrer"
       aria-label="share on twitter"
       className={socialicon}
@@ -224,9 +226,11 @@ const Roadmap = ({ courses = [] }) => {
 const CardCourseTest = ({ id, index, limit }) => {
   //customHook
   const [course, setcourse] = useState(null);
-  useEffect(async () => {
-    const { data } = await CeroacienInstances.get(`/courses/${id}`);
-    setcourse(data);
+  useEffect(() => {
+    (async () => {
+      const { data } = await CeroacienInstances.get(`/courses/${id}`);
+      setcourse(data);
+    })();
   }, [id]);
 
   return (

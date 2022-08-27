@@ -8,7 +8,7 @@ import Image from "next/image";
 const Links = [
   {
     name: "¿Dónde empiezo?",
-    href: "/elige-los-mejores-cursos-para-ti",
+    href: "/donde-empiezo",
     id: "TestCourse",
   },
   {
@@ -25,6 +25,17 @@ const Links = [
     name: "Podcast",
     href: "/podcast",
     id: "Podcast",
+  },
+  {
+    name: "Learning Sessions",
+    href: "/Learning-Sessions",
+    id: "LearningSessions",
+  },
+
+  {
+    name: "¿Cuáles cursos son para mí ?",
+    href: "cuales-cursos-son-para-mi",
+    id: "cuales-cursos-son-para-mi",
   },
 ];
 
@@ -45,8 +56,8 @@ function Index({ children }) {
       {asPath === "/" ? null : (
         <>
           <header className="w-full py-1 bg-white shadow-lg sticky top-0 z-40">
-            <nav className="navbar navbar-expand-lg navbar-light bg-light p-2  flex items-center justify-between max-w-screen-xl mx-auto">
-              <div className=" w-1/2 md:w-2/12">
+            <nav className="navbar navbar-expand-lg navbar-light bg-light p-2  flex items-center justify-between max-w-screen-2xl mx-auto ">
+              <div className="w-1/2 md:w-2/12">
                 <Link href="/">
                   <a>
                     <div className="relative grid place-items-center">
@@ -66,7 +77,7 @@ function Index({ children }) {
               </div>
               <div
                 aria-label="main-navigation"
-                className="hidden w-0 md:w-9/12 h-full md:grid place-items-center"
+                className=" hidden w-0 md:w-9/12 h-full lg:grid place-items-center"
               >
                 <ul className="flex flex-row gap-14">
                   {Links.map((link, index) => (
@@ -82,6 +93,7 @@ function Index({ children }) {
                             : " text-gray-300 "
                         }
                         hover:text-black
+                        text-base
                         transition duration-150 ease-out hover:ease-in
                         `}
                         >
@@ -92,17 +104,17 @@ function Index({ children }) {
                   ))}
                 </ul>
               </div>
-              <div className=" w-1/2 h-full md:w-3/12 flex justify-end ">
-                <div className="hidden md:block w-full p-3 sm:p-0 relative">
+              <div className=" w-1/2 h-full md:w-2/12 flex justify-end  ">
+                <div className="hidden lg:block w-full p-3 sm:p-0 relative">
                   {children}
                 </div>
                 <div
-                  className="md:hidden grid place-items-center "
+                  className="lg:hidden grid place-items-center "
                   onClick={() => {
                     setShow(!Show);
                   }}
                 >
-                  <div className=" md:hidden flex flex-col gap-[5px] ">
+                  <div className="flex flex-col gap-[5px] lg:hidden">
                     <span className="block w-8 h-0.5 bg-primary animate-pulse"></span>
                     <span className="block w-8 h-0.5 bg-primary animate-pulse"></span>
                     <span className="block w-8 h-0.5 bg-primary animate-pulse"></span>

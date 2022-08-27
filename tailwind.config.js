@@ -14,6 +14,7 @@ module.exports = {
         Extraordinariosbg1: "#520BF7",
         Extraordinariosbg2: "#5F04E4",
         PodcastBg: "#424242",
+        bg: "#f7f7f7",
       },
       animation: {
         fondoAnim: "fondoAnim 20s infinite alternate  ease-in-out ",
