@@ -3,6 +3,9 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useEffect } from "react";
 
+import rocket from "../../public/img/ceroacienprogramadeducacionalecerada.png";
+import micro from "../../public/img/ceroacienprogramadeducacionaleceradamirocono.png";
+
 import { useAnimation, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
@@ -57,7 +60,7 @@ const TextHeader = ({ children }) => {
         <div
           className="z-20 absolute hidden md:block md:bottom-[-3%] md:left-[-50%]   w-full md:h-1/2 md:aspect-square"
           style={{
-            backgroundImage: `url("https://i.postimg.cc/vHdqBr7z/PORTADAPODCAST-1-2-1.png")`,
+            backgroundImage: `url("${micro.src}")`,
             backgroundSize: "contain",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
@@ -77,6 +80,7 @@ const Rocket = () => {
       controls.start("visible");
     }
   }, [controls, inView]);
+
   return (
     <motion.div
       ref={ref}
@@ -85,7 +89,7 @@ const Rocket = () => {
       variants={RocketVariants}
       className="z-10 absolute  top-[-3%] right-[-300%] md:top-[5%] md:right-[-50%]  w-[110px] md:w-full aspect-square"
       style={{
-        backgroundImage: `url("https://i.postimg.cc/tgY0RRqH/PORTADAPODCAST-1-1.png")`,
+        backgroundImage: `url("${rocket.src}")`,
         backgroundSize: "cover",
         backgroundPosition: "center",
         backgroundRepeat: "no-repeat",

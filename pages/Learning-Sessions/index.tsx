@@ -5,6 +5,8 @@ import React, { useEffect } from "react";
 import { useAnimation, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 
+import calendar from "../../public/img/calendariossesionesdeaprendizaje.png";
+
 export default function Eventos() {
   return (
     <>
@@ -77,7 +79,7 @@ const TextHeader = ({ children }) => {
           }}
           className="z-20  absolute hidden md:block md:bottom-[30%] md:left-[-50%]   w-full md:h-1/2 md:aspect-square"
           style={{
-            backgroundImage: `url("https://i.postimg.cc/zBymh99Y/calendario-1.png")`,
+            backgroundImage: `url("${calendar.src}")`,
             backgroundSize: "contain",
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",

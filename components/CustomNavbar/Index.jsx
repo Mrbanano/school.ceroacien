@@ -33,7 +33,7 @@ const Links = [
   },
 
   {
-    name: "¿Cuáles cursos son para mí ?",
+    name: "Cursos para mi",
     href: "cuales-cursos-son-para-mi",
     id: "cuales-cursos-son-para-mi",
   },
