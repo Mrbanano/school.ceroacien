@@ -197,7 +197,7 @@ const BannerTest = () => {
     >
       <p className="p-3 md:text-xl flex flex-col md:flex-row  items-center  gap-3 text-black font-semibold">
         ¿No estás seguro por dónde empezar ?
-        <Link href="elige-los-mejores-cursos-para-ti">
+        <Link href="cuales-cursos-son-para-mi">
           <a className="border-2 border-transparent  p-1 text-primary underline hover:border-2 hover:border-primary">
             Haz nuestro cuestionario
           </a>
