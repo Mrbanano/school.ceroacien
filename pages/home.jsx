@@ -39,7 +39,11 @@ export default function Home({ Bootcamp = BootcampItems, userServer }) {
     (async () => {
       try {
         const res = await CeroacienInstances("/courses");
-        setCourses(res.data.data);
+        const products = res.data.data.filter(
+          (item) => item.metadata.bootcamp !== "true"
+        );
+        setCourses(products);
+        console.log("courses", products);
       } catch (error) {
         setCourses([]);
       }

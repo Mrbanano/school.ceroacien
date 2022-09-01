@@ -93,7 +93,7 @@ const TextHeader = ({ children }) => {
 const Banner = ({ children }) => {
   return (
     <section
-      className="max-h-[500px] relative z-0 pt-10 md:pt-0 w-screen h-[75vh] md:h-[80vh] bg-primary"
+      className=" max-h-[500px] relative z-0 pt-10 md:pt-0 w-screen h-[75vh] md:h-[80vh] bg-primary"
       style={{
         clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 5vh))",
       }}
