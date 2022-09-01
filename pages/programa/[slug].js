@@ -23,10 +23,6 @@ const Coupon = {
     Value: 0.85,
     Name: "Natalia",
   },
-  carlos: {
-    Value: 0.5,
-    Name: "Carlos",
-  },
 };
 
 export default function index() {
@@ -46,11 +42,14 @@ export default function index() {
       if (id === "[slug]") return;
       setLoading(true);
       const data = await getProgramDetail(id);
-      console.log(data.default_price.unit_amount);
+      console.log(data?.default_price?.unit_amount);
       if (couponUrl) {
         if (Coupon[couponUrl]) {
           data.default_price.unit_amount =
             data.default_price.unit_amount * Coupon[couponUrl].Value;
+          data.default_price.unit_amount_decimal =
+            data.default_price.unit_amount_decimal * Coupon[couponUrl].Value;
+          data.default_price.coupon = couponUrl;
         }
       }
       setCourse(data);

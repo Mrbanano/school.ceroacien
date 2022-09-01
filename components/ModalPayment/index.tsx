@@ -27,6 +27,8 @@ export default function Index({ show, handleCloseModal, course }) {
   const [Loading, setLoading] = React.useState(false);
   const { data: session, status } = useSession();
 
+  console.log(course?.default_price);
+
   useEffect(() => {
     setInfo({
       id: course?.id,
@@ -88,7 +90,7 @@ export default function Index({ show, handleCloseModal, course }) {
               <button
                 className="border-2 border-black/50 w-full flex items-center justify-between p-1 px-3 rounded-lg"
                 onClick={() => {
-                  Payment(course?.default_price);
+                  Payment(course?.default_price, course?.default_price?.coupon);
                 }}
               >
                 <h2 className="font-semibold text-base">Stripe</h2>
