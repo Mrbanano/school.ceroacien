@@ -23,6 +23,10 @@ const Coupon = {
     Value: 0.85,
     Name: "Natalia",
   },
+  carlos: {
+    Value: 0.5,
+    Name: "Carlos",
+  },
 };
 
 export default function index() {
