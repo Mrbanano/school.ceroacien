@@ -98,7 +98,6 @@ export default function index() {
             <WrapperCourseContent>
               <HeaderCourse course={course} />
               <DescriptionSection course={course} />
-
               <Temary temary={course?.extra?.temary} />
             </WrapperCourseContent>
           </>
