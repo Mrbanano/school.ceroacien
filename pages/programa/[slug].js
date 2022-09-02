@@ -18,6 +18,11 @@ import ModalPayment from "../../components/ModalPayment";
 import { CheckIfCourseIsBuy } from "../../utils/checkIfCourseIsBuy";
 import { useSession } from "next-auth/react";
 
+import { useCountdown } from "../../hook/useCountdown";
+import { motion } from "framer-motion";
+
+import bg from "../../public/img/bg-2.png";
+
 const Coupon = {
   Natalia: {
     Value: 0.85,
@@ -71,7 +76,7 @@ export default function index() {
           course={course}
         />
       )}
-
+      {Loading ? null : <CountDown date={course?.extra?.StartDate} />}
       <main
         className={`${
           showModal ? "max-h-[75vh] overflow-hidden" : ""
@@ -115,7 +120,7 @@ const WrapperCourseContent = ({ children }) => {
 
 const WraperCourseInfo = ({ children }) => {
   return (
-    <section className="sm:max-w-[300px] sm:order-1 sm:w-2/6 sm:sticky sm:top-24 sm:border-4 sm:border-white bg-white sm:shadow-lg z-10">
+    <section className="sm:max-w-[300px] sm:order-1 sm:w-2/6 sm:sticky sm:top-52 sm:border-4 sm:border-white bg-white sm:shadow-lg z-10">
       {children}
     </section>
   );
@@ -130,12 +135,67 @@ const HeaderCourse = ({ course }) => {
   );
 };
 
-const Explanation = ({ course }) => {
+const CountDown = ({ date }) => {
+  const [days, hours, minutes, seconds] = useCountdown(date);
+  console.log(days, hours, minutes, seconds);
   return (
-    <section className="bg-white  px-12 py-10 sm:flex sm:flex-col gap-8  z-0">
-      <h1 className="text-5xl font-semibold text-center">cosa</h1>
-      <p className="font-light text-xl ">cosa</p>
-    </section>
+    <>
+      {days + hours + minutes + seconds <= 0 ? null : (
+        <section className="rounded-lg p-2 overflow-hidden sticky top-16  md:top-28 z-50  w-full max-w-7xl mx-auto my-0 md:my-4  grid place-content-center bg-white">
+          <ShowCounter
+            days={days}
+            hours={hours}
+            minutes={minutes}
+            seconds={seconds}
+          />
+          <motion.div
+            initial={{ y: 0, z: 0 }}
+            animate={{
+              y: -400,
+              z: 0,
+              transition: {
+                repeat: Infinity,
+                repeatType: "reverse",
+                duration: 75,
+                ease: "linear",
+              },
+            }}
+            style={{
+              backgroundImage: `url("${bg.src}")`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundRepeat: "no-repeat",
+            }}
+            className="absolute w-full h-[240px] z-0"
+          ></motion.div>
+        </section>
+      )}
+    </>
+  );
+};
+
+const ShowCounter = ({ days, hours, minutes, seconds }) => {
+  return (
+    <div className="flex gap-3 items-center  z-50  w-full h-full ">
+      <DateTimeDisplay value={days} type={"Dias"} />
+      <p className="border-[0.5px] border-black/50 h-[35%]"></p>
+      <DateTimeDisplay value={hours} type={"Horas"} />
+      <p className="border-[0.5px] border-black/50 h-[35%]"></p>
+      <DateTimeDisplay value={minutes} type={"Minutos"} />
+      <p className="border-[0.5px] border-black/50 h-[35%]"></p>
+      <DateTimeDisplay value={seconds} type={"Segundos"} />
+    </div>
+  );
+};
+
+const DateTimeDisplay = ({ value, type }) => {
+  return (
+    <div className="flex flex-col text-center">
+      <p className="border-2 border-transparent p-1 text-2xl font-semibold">
+        {value}
+      </p>
+      <span className="text-xs font-thin">{type}</span>
+    </div>
   );
 };
 

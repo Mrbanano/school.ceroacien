@@ -8,6 +8,7 @@ import { CeroacienInstances } from "../../config";
 
 import { useAnimation, motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { data } from "autoprefixer";
 
 export default function index() {
   //custom hook

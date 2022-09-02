@@ -14,29 +14,27 @@ export default function Eventos() {
         <title>Eventos | Ceroacien | acelera tu carrera profesional</title>
       </Head>
       <main>
-        <div className="">
-          <Banner>
-            <Wrapper>
-              <TextHeader>
-                <h1 className="text-3xl md:text-6xl font-medium text-white px-24">
-                  El siguiente
-                  <span className="font-bold mx-2 text-ExtraordinariosText">
-                    nivel
-                  </span>
-                  de tu carrera.
-                </h1>
-                <h2 className="text-base md:text-xl font-normal text-white">
-                  Aprende, comparte,{" "}
-                  <span className="relative">
-                    conecta.
-                    <span className=" absolute animate-ping top-[-20%] right-[-20%] h-3 w-3 rounded-full bg-sky-400 opacity-75"></span>
-                    <span className=" absolute  top-[-20%] right-[-20%] h-3 w-3 rounded-full bg-sky-500 opacity-75"></span>
-                  </span>
-                </h2>
-              </TextHeader>
-            </Wrapper>
-          </Banner>
-        </div>
+        <Banner>
+          <Wrapper>
+            <TextHeader>
+              <h1 className="text-3xl md:text-6xl font-medium text-white px-24">
+                El siguiente
+                <span className="font-bold mx-2 text-ExtraordinariosText">
+                  nivel
+                </span>
+                de tu carrera.
+              </h1>
+              <h2 className="text-base md:text-xl font-normal text-white">
+                Aprende, comparte,{" "}
+                <span className="relative">
+                  conecta.
+                  <span className=" absolute animate-ping top-[-20%] right-[-20%] h-3 w-3 rounded-full bg-sky-400 opacity-75"></span>
+                  <span className=" absolute  top-[-20%] right-[-20%] h-3 w-3 rounded-full bg-sky-500 opacity-75"></span>
+                </span>
+              </h2>
+            </TextHeader>
+          </Wrapper>
+        </Banner>
         <Conferences />
         <Apply />
       </main>
@@ -256,7 +254,7 @@ const SpeakersCard = ({ item }) => {
               {item.topic}
             </span>
             <h2 className="text-xl font-semibold">{item.title}</h2>
-            <h3 className="text-xs px-2">
+            <h3 className="text-xs px-2 py-1">
               {item.name === "" ? (
                 <p className="text-lg">Por Confirmar</p>
               ) : (
@@ -324,12 +322,13 @@ const BrandVariants = {
 
 const speakers = [
   {
-    empresas: "https://i.postimg.cc/zB5yZxC9/ceroacien-2.png",
-    avatar: "https://i.postimg.cc/DwyFTqsS/Doodle-Avatar-03.png",
+    empresas: "https://i.postimg.cc/xTN1MhLC/qentaz-2.png",
+    avatar:
+      "https://i.postimg.cc/3R3kZ1Yq/Natalia-Herrera-Dara-Una-Charla-De-Empliabilidad-En-Ceroacien.png",
     topic: "Marca personal",
     title: "LinkedIn como un imán para atraer oportunidades. ",
     name: "Natalia Garcia ",
-    date: "Proximamente",
+    date: "Lunes 12 de Septiembre",
     link: "/Learning-Sessions/genera-insights-desde-tu-data-lake",
     description: "Product Analyst @Qentaz - Woman in tech 🚀",
   },
@@ -377,6 +376,16 @@ const speakers = [
     empresas: "https://i.postimg.cc/zB5yZxC9/ceroacien-2.png",
     avatar: "https://i.postimg.cc/JhQknwz1/Doodle-Avatar-07.png",
     topic: "Web Development",
+    title: "",
+    name: "",
+    date: "Proximamente",
+    link: "/Learning-Sessions/",
+    description: "",
+  },
+  {
+    empresas: "https://i.postimg.cc/zB5yZxC9/ceroacien-2.png",
+    avatar: "https://i.postimg.cc/DwyFTqsS/Doodle-Avatar-03.png",
+    topic: "Marca personal",
     title: "",
     name: "",
     date: "Proximamente",

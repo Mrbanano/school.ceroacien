@@ -25,7 +25,7 @@ const ProgramsItem = {
       Img: "https://media-exp1.licdn.com/dms/image/C5603AQE92-riLYll0A/profile-displayphoto-shrink_800_800/0/1656821470626?e=1666224000&v=beta&t=8YXYW_P8d3y0sZ1qQI7nhMdTR9iGs-NCIN2SnDub5nA",
       Description: "CEO of Ceroacien",
     },
-    StartDate: "26 de Septiembre",
+    StartDate: "2022-09-29",
     temary: {
       "Ingles técnico": [
         "Abreviaciones en el trabajo ",
