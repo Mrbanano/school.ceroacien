@@ -159,7 +159,6 @@ const CourseInfo = ({ course, handleCloseModal, show }) => {
       <p className="font-light text-base sm:hidden">{course.description}</p>
       <CourseContent>
         <CourseInformation course={course} />
-        <Mentor mentor={course?.extra?.tutor} />
         <Pricing
           id={course.id}
           price={course?.default_price}
@@ -193,25 +192,25 @@ const CourseInformation = ({ course }) => {
           <span className="">
             <Clock />
           </span>
-          Duracion: 1hr 30m
+          Duracion: 2 meses
         </p>
         <p className=" flex gap-2 ">
           <span>
             <Paper />
           </span>
-          5 recursos descargables
+          Recursos descargables.
         </p>
         <p className="flex gap-2 ">
           <span>
             <Loop />
           </span>
-          Acceso de por vida
+          Feedback continuo.
         </p>
         <p className="flex gap-2 ">
           <span>
             <Task />
           </span>
-          Tareas
+          Tareas, retos y proyectos
         </p>
       </div>
     </div>
@@ -296,7 +295,7 @@ const Temary = ({ temary }) => {
           {Object.keys(temary).map((key, index) => {
             return (
               <div key={"Temary" + key + index}>
-                <details>
+                <details open>
                   <summary className="p-5 border-2 shadow text-lg font-bold">
                     {key}
                   </summary>

@@ -11,6 +11,7 @@ import { useInView } from "react-intersection-observer";
 export default function index() {
   //custom hook
   const [course, setcourse] = useState([]);
+  const [program, setprogram] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [filterCourse, setFilterCourse] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -25,8 +26,15 @@ export default function index() {
     (async () => {
       try {
         const { data } = await CeroacienInstances("/courses");
-        setcourse(data.data);
-        setFilterCourse(data.data);
+        const products = data.data.filter(
+          (item) => item.metadata.bootcamp === "true"
+        );
+        const courses = data.data.filter(
+          (item) => item.metadata.bootcamp !== "true"
+        );
+        setcourse(courses);
+        setFilterCourse(courses);
+        setprogram(products);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -81,7 +89,18 @@ export default function index() {
         <section className="w-full md:w-9/12">
           <BannerTest />
           <SearchBar Filter={Filter} isMobile={true} />
-          <CourseGrid filterCourse={filterCourse} isLoading={isLoading} />
+          <CourseGrid
+            filterCourse={filterCourse}
+            isLoading={isLoading}
+            title={"Todos los cursos"}
+            type={"course"}
+          />
+          <CourseGrid
+            filterCourse={program}
+            isLoading={isLoading}
+            title={"Todos los programas"}
+            type={"programa"}
+          />
         </section>
       </main>
     </>
@@ -188,7 +207,7 @@ const SearchBar = ({ Filter, isMobile }) => {
 const BannerTest = () => {
   return (
     <section
-      className="md:sticky md:top-24 z-30 my-6 w-full h-[80px] max-w-[936px]  grid place-content-center "
+      className=" md:top-24 z-30 my-6 w-full h-[80px] max-w-[936px]  grid place-content-center "
       style={{
         backgroundImage: 'url("https://i.postimg.cc/658YCdSs/Frame-16.png")',
         backgroundPosition: "center",
@@ -207,13 +226,13 @@ const BannerTest = () => {
   );
 };
 
-const CourseGrid = ({ filterCourse, isLoading }) => {
+const CourseGrid = ({ filterCourse, isLoading, title, type }) => {
   const course = filterCourse;
   const courseLoading = [1, 2, 3, 4, 5, 6];
   return (
     <>
       <div>
-        <h2 className="font-semibold text-3xl">Todos los cursos</h2>
+        <h2 className="font-semibold text-3xl">{title}</h2>
       </div>
       {!isLoading && filterCourse.length === 0 && (
         <div className="grid h-[45vh] m-2  my-10  place-content-center">
@@ -233,7 +252,7 @@ const CourseGrid = ({ filterCourse, isLoading }) => {
       {!isLoading && filterCourse.length > 0 && (
         <div className="grid grid-cols-1 min-h-[50vh] md:grid-cols-3 gap-5 py-10">
           {course.map((item) => (
-            <CourseItem key={"loading " + item.id} course={item} />
+            <CourseItem key={"loading " + item.id} course={item} type={type} />
           ))}
         </div>
       )}
@@ -289,7 +308,7 @@ const Empty = (props) => {
   );
 };
 
-const CourseItem = ({ course }) => {
+const CourseItem = ({ course, type }) => {
   const controls = useAnimation();
   const [ref, inView] = useInView();
 
@@ -306,14 +325,18 @@ const CourseItem = ({ course }) => {
       initial="hidden"
       variants={CardVariants}
     >
-      <Link key={"course" + course.name} href={`/course/${course.id}`}>
+      <Link key={"course" + course.name} href={`/${type}/${course.id}`}>
         <div className="border-2 border-black h-[180px] p-4 flex flex-col justify-between bg-white hover:border-primary">
           <div className="">
-            <p className="font-light text-sm">Curso</p>
+            <p className="font-light text-sm">
+              {type === "course" ? "Curso" : "Programa"}
+            </p>
             <h2 className="font-bold text-lg md:text-sm my-3">{course.name}</h2>
           </div>
           <div className="flex justify-end">
-            <p className="text-xs">Lenguaje: {course.metadata.topic}</p>
+            {type === "courses" ? (
+              <p className="text-xs">Lenguaje: {course.metadata.topic}</p>
+            ) : null}
           </div>
         </div>
       </Link>
