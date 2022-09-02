@@ -8,6 +8,7 @@ import Task from "../../components/Icon/Task";
 import Loop from "../../components/Icon/Loop";
 import TemaryIcon from "../../components/Icon/TemaryIcon";
 import { CourseInfo as Description } from "../../components/CourseInfo";
+import SEO from "../../components/SEO";
 
 import Image from "next/image";
 
@@ -37,7 +38,6 @@ export default function index() {
   const couponUrl = asPath?.split("?")[1]?.split("=")[1];
   const id = asPath.split("/")[2];
   const [showModal, setShowModal] = useState(false);
-
   const handleCloseModal = () => {
     setShowModal(!showModal);
   };
@@ -65,10 +65,18 @@ export default function index() {
   return (
     <>
       <Head>
-        <title>{course.name}</title>
+        <title>
+          {course.name} | ceroacien | potencia tu carrera profesional
+        </title>
         <meta name="description" content={course.descripcion} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <SEO
+        url={"https://ceroacienweb-gilt.vercel.app/" + asPath}
+        description={course.descripcion}
+        title={course.name}
+        img
+      />
       {!Loading && (
         <ModalPayment
           show={showModal}
@@ -137,7 +145,7 @@ const HeaderCourse = ({ course }) => {
 
 const CountDown = ({ date }) => {
   const [days, hours, minutes, seconds] = useCountdown(date);
-  console.log(days, hours, minutes, seconds);
+
   return (
     <>
       {days + hours + minutes + seconds <= 0 ? null : (
