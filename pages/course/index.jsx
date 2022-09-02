@@ -250,11 +250,14 @@ const CourseGrid = ({ filterCourse, isLoading, title, type }) => {
         </div>
       )}
       {!isLoading && filterCourse.length > 0 && (
-        <div className="grid grid-cols-1 min-h-[50vh] md:grid-cols-3 gap-5 py-10">
+        <motion.div
+          layout
+          className="grid grid-cols-1 min-h-[50vh] md:grid-cols-3 gap-5 py-10"
+        >
           {course.map((item) => (
             <CourseItem key={"loading " + item.id} course={item} type={type} />
           ))}
-        </div>
+        </motion.div>
       )}
     </>
   );

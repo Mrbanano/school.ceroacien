@@ -98,6 +98,7 @@ export default function index() {
             <WrapperCourseContent>
               <HeaderCourse course={course} />
               <DescriptionSection course={course} />
+
               <Temary temary={course?.extra?.temary} />
             </WrapperCourseContent>
           </>
@@ -126,7 +127,15 @@ const HeaderCourse = ({ course }) => {
     <section className="bg-white hidden px-12 py-6 sm:flex sm:flex-col gap-8  z-0">
       <h1 className="text-5xl font-semibold ">{course.name}</h1>
       <p className="font-light text-xl ">{course.description}</p>
-      <Mentor mentor={course.extra.tutor} />
+    </section>
+  );
+};
+
+const Explanation = ({ course }) => {
+  return (
+    <section className="bg-white  px-12 py-10 sm:flex sm:flex-col gap-8  z-0">
+      <h1 className="text-5xl font-semibold text-center">cosa</h1>
+      <p className="font-light text-xl ">cosa</p>
     </section>
   );
 };

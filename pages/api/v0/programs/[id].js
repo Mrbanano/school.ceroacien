@@ -19,12 +19,13 @@ export default async function handler(req, res) {
 
 const ProgramsItem = {
   prod_MLmBPGedrKpcI2: {
-    media: "https://embed.api.video/vod/vi98Hkfb2MNnO1q4MuhawJQ",
+    media: "https://cdn.api.video/vod/vi6W3isNC9twHa7u5M0z5nCX/mp4/source.mp4",
     tutor: {
       Name: "Carlos Valerio",
       Img: "https://media-exp1.licdn.com/dms/image/C5603AQE92-riLYll0A/profile-displayphoto-shrink_800_800/0/1656821470626?e=1666224000&v=beta&t=8YXYW_P8d3y0sZ1qQI7nhMdTR9iGs-NCIN2SnDub5nA",
       Description: "CEO of Ceroacien",
     },
+    StartDate: "26 de Septiembre",
     temary: {
       "Ingles técnico": [
         "Abreviaciones en el trabajo ",

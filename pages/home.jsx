@@ -115,15 +115,6 @@ export default function Home({ Bootcamp = BootcampItems, userServer }) {
                 type="courses"
               />
             )}
-            {!Bootcamp && null}
-            {Bootcamp && Bootcamp.length > 1 && (
-              <ItemsContainer
-                Items={Bootcamp}
-                Error={Error}
-                label="Categorias"
-                text="Explora nuestros programas de educación acelerada más populares"
-              />
-            )}
           </main>
         </div>
       </>
