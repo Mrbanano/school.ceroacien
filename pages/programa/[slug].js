@@ -8,7 +8,7 @@ import Task from "../../components/Icon/Task";
 import Loop from "../../components/Icon/Loop";
 import TemaryIcon from "../../components/Icon/TemaryIcon";
 import { CourseInfo as Description } from "../../components/CourseInfo";
-import SEO from "../../components/SEO";
+import SEO from "../../components/SEO/Seo";
 
 import Image from "next/image";
 
