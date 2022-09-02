@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import React from "react";
+import Image from "next/image";
 import { useState } from "react";
 import { useEffect } from "react";
 import { CeroacienInstances } from "../../config";
@@ -328,21 +329,65 @@ const CourseItem = ({ course, type }) => {
       initial="hidden"
       variants={CardVariants}
     >
-      <Link key={"course" + course.name} href={`/${type}/${course.id}`}>
-        <div className="border-2 border-black h-[180px] p-4 flex flex-col justify-between bg-white hover:border-primary">
-          <div className="">
-            <p className="font-light text-sm">
-              {type === "course" ? "Curso" : "Programa"}
-            </p>
-            <h2 className="font-bold text-lg md:text-sm my-3">{course.name}</h2>
+      {type === "course" && (
+        <Link key={"course" + course.name} href={`/${type}/${course.id}`}>
+          <div className="border-2 border-black h-[180px] p-4 flex flex-col justify-between bg-white hover:border-primary">
+            <div className="">
+              <p className="font-light text-sm">
+                {type === "course" ? "Curso" : "Programa"}
+              </p>
+              <h2 className="font-bold text-lg md:text-sm my-3">
+                {course.name}
+              </h2>
+            </div>
+            <div className="flex justify-end">
+              {type === "courses" ? (
+                <p className="text-xs">Lenguaje: {course.metadata.topic}</p>
+              ) : null}
+            </div>
           </div>
-          <div className="flex justify-end">
-            {type === "courses" ? (
-              <p className="text-xs">Lenguaje: {course.metadata.topic}</p>
-            ) : null}
+        </Link>
+      )}
+      {type === "programa" && (
+        <Link key={"course" + course.name} href={`/${type}/${course.id}`}>
+          <div className="overflow-hidden border-2 border-black  aspect-[3/4] p-4 flex flex-col justify-between bg-white hover:border-primary">
+            <div className="w-full h-full flex flex-col justify-between">
+              <section className="flex flex-col gap-2 pb-3">
+                <div className=" flex items-center py-2 gap-2">
+                  <div className="px-1 bg-black text-white">
+                    <p className="text-sm">Path</p>
+                  </div>
+                  <p className="font-light text-sm">
+                    {type === "course" ? "Curso" : "Programa"}
+                  </p>
+                </div>
+                <div className="">
+                  <h2 className="font-bold text-lg md:text-2xl  border-b-2 border-black/50 py-2">
+                    {course.name}
+                  </h2>
+                  <p className="text-[9px] py-2">{course.description}</p>
+                </div>
+              </section>
+              <div className="h-2/3 aspect-square mb-8 mx-auto relative grid place-content-center">
+                <Image
+                  className="w-full border-2 border-red-500 "
+                  src={course.images[0]}
+                  alt={course.name}
+                  width={"100%"}
+                  height={"100%"}
+                  layout={"fill"}
+                  objectFit="contain"
+                />
+              </div>
+              <div className="text-right relative">
+                <p className="absolute text-white font-semibold top-[-1rem] right-[-1.3rem] border-2 border-black/60 bg-black/60 p-1">
+                  {course.metadata.StartDate}
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </Link>
+        </Link>
+      )}
     </motion.div>
   );
 };
