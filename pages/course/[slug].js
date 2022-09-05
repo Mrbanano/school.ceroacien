@@ -31,8 +31,12 @@ export async function getServerSideProps(context) {
   );
   const url = getRedirect(context.resolvedUrl);
   const slug = context.resolvedUrl.split("/")[2];
+
+  let data = null;
+
   try {
-    const { data } = await CeroacienInstances("/api/v0/courses/" + slug);
+    const resp = await CeroacienInstances("/courses/" + slug);
+    data = resp.data;
   } catch (error) {
     console.log(error);
     return {
