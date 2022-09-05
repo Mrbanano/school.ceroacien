@@ -1,7 +1,7 @@
 import React from "react";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
-import StudyPlan from "../components/StudyPlan";
+import StudyPlan from "../components/StudyPlan/Index";
 
 export default function Home({ session }) {
   return <StudyPlan />;
