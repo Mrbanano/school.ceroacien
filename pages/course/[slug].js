@@ -2,7 +2,7 @@ import Head from "next/head";
 import React, { useState } from "react";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
-import { CeroacienInstances } from "../../config";
+import { CeroacienServerInstances } from "../../config/server";
 
 import Author from "../../components/CourseInfo/Author";
 import Clock from "../../components/Icon/Clock";
@@ -35,7 +35,7 @@ export async function getServerSideProps(context) {
   let data = null;
 
   try {
-    const resp = await CeroacienInstances("/courses/" + slug);
+    const resp = await CeroacienServerInstances("/courses/" + slug);
     data = resp.data;
   } catch (error) {
     console.log(error);
