@@ -25,16 +25,6 @@ const schema = new Schema({
     type: String,
     default: "Free",
   },
-  Courses: [
-    {
-      type: String,
-    },
-  ],
-  Bootcamps: [
-    {
-      type: String,
-    },
-  ],
 });
 
 export default models.User || model("User", schema);

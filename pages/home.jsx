@@ -1,9 +1,10 @@
 import React from "react";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
+import StudyPlan from "../components/StudyPlan";
 
 export default function Home({ session }) {
-  return <div>{JSON.stringify(session)}</div>;
+  return <StudyPlan />;
 }
 
 export async function getServerSideProps(context) {
@@ -13,14 +14,14 @@ export async function getServerSideProps(context) {
     authOptions
   );
 
-  /*if (!session) {
+  if (!session) {
     return {
       redirect: {
-        destination: "/",
+        destination: "/api/auth/signin",
         permanent: false,
       },
     };
-  }*/
+  }
 
   return {
     props: {
