@@ -31,7 +31,17 @@ export async function getServerSideProps(context) {
   );
   const url = getRedirect(context.resolvedUrl);
   const slug = context.resolvedUrl.split("/")[2];
-  const { data } = await CeroacienInstances("/courses/" + slug);
+  try {
+    const { data } = await CeroacienInstances("/api/v0/courses/" + slug);
+  } catch (error) {
+    console.log(error);
+    return {
+      redirect: {
+        destination: "/home",
+        permanent: false,
+      },
+    };
+  }
 
   if (!session) {
     return {
