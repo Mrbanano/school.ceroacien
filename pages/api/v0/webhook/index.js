@@ -1,7 +1,6 @@
 import Stripe from "stripe";
 import { buffer } from "micro";
 import { ToSaveCourse } from "../../../../utils/Savecourse";
-import next from "next";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 export const config = {
@@ -10,7 +9,7 @@ export const config = {
   },
 };
 
-export default async function handler(req, res, next) {
+export default async function handler(req, res) {
   let data;
   if (req.method === "POST") {
     let event;
@@ -45,11 +44,10 @@ export default async function handler(req, res, next) {
 
       ToSaveCourse(session.customer_details.email, course)
         .then((data) => {
-          console.log(data);
+          console.log("se guarda", data);
         })
         .catch((err) => {
           console.log(err);
-          next();
         });
     } else {
       console.warn(`🤷‍♀️ Unhandled event type: ${event.type}`);

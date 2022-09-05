@@ -8,7 +8,6 @@ import Task from "../../components/Icon/Task";
 import Loop from "../../components/Icon/Loop";
 import TemaryIcon from "../../components/Icon/TemaryIcon";
 import { CourseInfo as Description } from "../../components/CourseInfo";
-import SEO from "../../components/SEO/Seo";
 
 import Image from "next/image";
 
@@ -71,12 +70,7 @@ export default function index() {
         <meta name="description" content={course.descripcion} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <SEO
-        url={"https://ceroacienweb-gilt.vercel.app/" + asPath}
-        description={course.descripcion}
-        title={course.name}
-        img
-      />
+
       {!Loading && (
         <ModalPayment
           show={showModal}
@@ -149,7 +143,7 @@ const CountDown = ({ date }) => {
   return (
     <>
       {days + hours + minutes + seconds <= 0 ? null : (
-        <section className="rounded-lg p-2 overflow-hidden sticky top-16  md:top-28 z-50  w-full max-w-7xl mx-auto my-0 md:my-4  grid place-content-center bg-white">
+        <section className="rounded-lg p-2 overflow-hidden sticky top-16  md:top-28 z-20 w-full max-w-7xl mx-auto my-0 md:my-4  grid place-content-center bg-white">
           <ShowCounter
             days={days}
             hours={hours}
@@ -159,12 +153,12 @@ const CountDown = ({ date }) => {
           <motion.div
             initial={{ y: 0, z: 0 }}
             animate={{
-              y: -400,
+              y: -150,
               z: 0,
               transition: {
                 repeat: Infinity,
                 repeatType: "reverse",
-                duration: 75,
+                duration: 10,
                 ease: "linear",
               },
             }}
@@ -211,7 +205,13 @@ const HeroCourse = ({ media, type = "video" }) => {
   return (
     <section className=" aspect-video">
       {type === "video" ? (
-        <iframe src={media} width="100%" height="100%" scrolling="no"></iframe>
+        <iframe
+          loading="lazy"
+          src={media}
+          width="100%"
+          height="100%"
+          scrolling="no"
+        ></iframe>
       ) : (
         <>
           <Image

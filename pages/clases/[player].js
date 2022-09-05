@@ -267,6 +267,7 @@ const VideoPlayer = ({ src }) => {
     <section className="h-full w-full bg-black">
       {src && (
         <iframe
+          loading="lazy"
           src={video}
           width="100%"
           height="100%"

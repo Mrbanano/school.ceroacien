@@ -123,7 +123,14 @@ const CardCourse = (props) => {
                 </button>
               </a>
             )}
-            {isBuy && (
+            {isBuy && Status == "Preventa" && (
+              <a className=" hidden sm:block sm:w-full">
+                <button className="w-full p-[9px] lg:p-3  border-2 rounded-lg font-bold text-sm bg-primary text-white md:text-lg   hover:text-white hover:font-black hover:border-primary transition duration-150 ease-out hover:ease-in ">
+                  Proximamente
+                </button>
+              </a>
+            )}
+            {isBuy && Status !== "Preventa" && (
               <a className=" hidden sm:block sm:w-full">
                 <button
                   onClick={() => {

@@ -13,6 +13,7 @@ export default function IndexPage() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <iframe
+          loading="lazy"
           className="w-full h-screen"
           src="https://bootcamp-landing-af10b.stackbit.app"
           frameBorder="0"

@@ -16,7 +16,7 @@ export default function Header() {
 
   return (
     <>
-      <BannerAds show={true} />
+      <BannerAds show={false} />
       <CustomNavbar>
         <SessionWraper
           isLoading={loading}

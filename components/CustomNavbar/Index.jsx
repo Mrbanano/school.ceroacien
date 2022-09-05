@@ -5,6 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 
+/*
 const Links = [
   {
     name: "¿Dónde empiezo?",
@@ -15,21 +16,6 @@ const Links = [
     name: "Inicio",
     href: "/home",
     id: "Home",
-  },
-  {
-    name: "Cursos",
-    href: "/course",
-    id: "Course",
-  },
-  {
-    name: "Podcast",
-    href: "/podcast",
-    id: "Podcast",
-  },
-  {
-    name: "Learning Sessions",
-    href: "/Learning-Sessions",
-    id: "LearningSessions",
   },
 
   {
@@ -46,14 +32,17 @@ const LinksMobile = [
     href: "/profile",
     id: "profile",
   },
-];
+];*/
+
+const Links = [];
+const LinksMobile = [];
 
 function Index({ children }) {
   const { asPath } = useRouter();
   const [Show, setShow] = useState(false);
   return (
     <>
-      {asPath === "/" ? null : (
+      {asPath === "/" || asPath === "/login" ? null : (
         <>
           <header className="w-full py-1 bg-white shadow-lg sticky top-0 z-40">
             <nav className="navbar navbar-expand-lg navbar-light bg-light p-2  flex items-center justify-between max-w-screen-2xl mx-auto ">
@@ -111,6 +100,7 @@ function Index({ children }) {
                 <div
                   className="lg:hidden grid place-items-center "
                   onClick={() => {
+                    window.scrollTo(0, 0);
                     setShow(!Show);
                   }}
                 >
@@ -124,7 +114,7 @@ function Index({ children }) {
             </nav>
           </header>
           {Show && (
-            <section className=" bg-white h-screen">
+            <section className="z-50 bg-white min-h-screen ">
               <ul className="flex flex-col">
                 {LinksMobile.map((link, index) => (
                   <li key={index} className=" w-full">
