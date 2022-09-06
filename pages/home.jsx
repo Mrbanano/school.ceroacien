@@ -32,6 +32,7 @@ export async function getServerSideProps(context) {
     const { data } = await CeroacienServerInstances.post("/user", {
       user: session.user,
     });
+    console.log(data);
     if (data.Error === 1) {
       return {
         redirect: {

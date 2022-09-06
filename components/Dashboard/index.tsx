@@ -80,10 +80,10 @@ const Aside = ({ Section, setSection }) => {
         {/* fin header del aside */}
         <hr className="h-px mt-0 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent"></hr>
         {/* aside menu */}
-        <div className="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full">
+        <div className="items-center block w-auto max-h-screen overflow-auto h-sidenav grow basis-full my-3">
           <ul className="flex flex-col pl-0 mb-0 gap-3">
             {NavBar.map((item, index) => (
-              <li className="mt-0.5 w-full border-2 border-red-500">
+              <li className="mt-0.5 w-full border-2 border-black/10">
                 <a
                   className="py-2.7 bg-blue-500/13 dark:text-white dark:opacity-80 text-sm ease-nav-brand my-0 mx-2 flex items-center whitespace-nowrap rounded-lg px-4 font-semibold text-slate-700 transition-colors"
                   onClick={() => setSection(item.name)}
@@ -110,7 +110,7 @@ const Main = ({ Section, setSection }) => {
     <main className="w-full">
       {Section === "Inicio" && (
         <>
-          <div className=" h-8 my-4"></div>
+          <div className=" h-4 my-4"></div>
           <CardWrapper />
           <SectionWrapper />
         </>

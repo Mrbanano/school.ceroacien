@@ -10,12 +10,29 @@ export default async function handler(req, res) {
       const { user } = req.body;
       try {
         const Founduser = await User.findOne({ Email: user.email });
-        if (Founduser) {
+
+        if (Founduser && Founduser.Rol !== "out") {
           return res.status(200).json({
             message: "Auth",
             user: Founduser,
           });
-        } else {
+        }
+
+        if (Founduser && Founduser.Rol === "out") {
+          return res.status(200).json({
+            message: "NoAuth",
+            Error: 1,
+          });
+        }
+
+        if (!Founduser) {
+          const newUser = await new User({
+            Email: user.email,
+            Name: user.name,
+            Picture: user.image,
+            Rol: "out",
+          }).save();
+
           return res.status(200).json({
             message: "NoAuth",
             Error: 1,
