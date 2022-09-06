@@ -4,14 +4,19 @@ import { unstable_getServerSession } from "next-auth/next";
 import StudyPlan from "../components/StudyPlan/Index";
 import { CeroacienServerInstances } from "../config/server";
 import Dashboard from "../components/Dashboard";
+import Head from "next/head";
 
 export default function Home({ rol }) {
-  if (rol === "user") {
-    return <StudyPlan />;
-  }
-  if (rol === "teacher") {
-    return <Dashboard />;
-  }
+  return (
+    <>
+      <Head>
+        <title>{rol === "user" ? "Home" : "Dashboard"} | ceroacien </title>
+      </Head>
+      <main className="max-w-screen-2xl mx-auto">
+        {rol === "user" ? <StudyPlan /> : <Dashboard />}
+      </main>
+    </>
+  );
 }
 
 export async function getServerSideProps(context) {

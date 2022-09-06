@@ -246,11 +246,6 @@ const WraperCourse = () => {
                   Explora nuestros todos nuestros cursos
                 </a>
               </Link>
-              <Link href="elige-los-mejores-cursos-para-ti">
-                <a className="border-2 border-primary p-4 bg-white text-primary font-medium">
-                  Averigua cuáles son los más adecuados
-                </a>
-              </Link>
             </div>
           </div>
         </div>

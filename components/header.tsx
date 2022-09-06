@@ -46,7 +46,9 @@ const SessionWraper = ({ isLoading, user, toggle, isOpen }) => {
           </Link>
           <Link href="profile">
             <div>
-              <h6 className="d-inline-block">{user.user.name}</h6>
+              <h6 className="d-inline-block dark:text-white capitalize font-medium">
+                {user.user.name}
+              </h6>
             </div>
           </Link>
           <div
@@ -58,7 +60,7 @@ const SessionWraper = ({ isLoading, user, toggle, isOpen }) => {
             <svg
               width={30}
               height={30}
-              fill="none"
+              fill="dark: text-white"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path

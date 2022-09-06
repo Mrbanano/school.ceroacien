@@ -44,12 +44,12 @@ function Index({ children }) {
     <>
       {asPath === "" || asPath === "/login" ? null : (
         <>
-          <header className="w-full py-1 bg-white shadow-lg sticky top-0 z-40">
+          <header className="w-full py-1 bg-white dark:bg-slate-900 shadow-lg sticky top-0 z-40">
             <nav className="navbar navbar-expand-lg navbar-light bg-light p-2  flex items-center justify-between max-w-screen-2xl mx-auto ">
               <div className="w-1/2 md:w-2/12">
                 <Link href="/">
                   <a>
-                    <div className="relative grid place-items-center">
+                    <div className="relative grid place-items-center dark:hidden">
                       <Image
                         src="https://i.postimg.cc/R0TGSDqv/logo-cerocien.png"
                         width="180px"
@@ -57,7 +57,19 @@ function Index({ children }) {
                         objectFit="contain"
                         alt="AlvaroCastilloCarreñoDesarolladorWeb"
                       />
-                      <span className="absolute right-[-10px] top-0 text-xs font-medium text-gray-400">
+                      <span className="absolute right-[-10px] top-0 text-xs font-medium text-gray-400 dark:text-white">
+                        School
+                      </span>
+                    </div>
+                    <div className="relative  place-items-center hidden dark:grid">
+                      <Image
+                        src="https://i.postimg.cc/Mp6Fd3wc/logo-cerocien-lio.png"
+                        width="180px"
+                        height="50%"
+                        objectFit="contain"
+                        alt="AlvaroCastilloCarreñoDesarolladorWeb"
+                      />
+                      <span className="absolute right-[-10px] top-0 text-xs font-medium text-gray-400 dark:text-white">
                         School
                       </span>
                     </div>
@@ -105,9 +117,9 @@ function Index({ children }) {
                   }}
                 >
                   <div className="flex flex-col gap-[5px] lg:hidden">
-                    <span className="block w-8 h-0.5 bg-primary animate-pulse"></span>
-                    <span className="block w-8 h-0.5 bg-primary animate-pulse"></span>
-                    <span className="block w-8 h-0.5 bg-primary animate-pulse"></span>
+                    <span className="block w-8 h-0.5 bg-primary dark:bg-white animate-pulse"></span>
+                    <span className="block w-8 h-0.5 bg-primary dark:bg-white animate-pulse"></span>
+                    <span className="block w-8 h-0.5 bg-primary  dark:bg-white animate-pulse"></span>
                   </div>
                 </div>
               </div>
