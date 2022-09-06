@@ -2,7 +2,7 @@ import Head from "next/head";
 import { authOptions } from "./api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
 
-export default function IndexPage() {
+export default function IndexPage({ user }) {
   return (
     <>
       <Head>
@@ -39,6 +39,8 @@ export async function getServerSideProps(context) {
   }
 
   return {
-    props: {},
+    props: {
+      user: session?.user || null,
+    },
   };
 }

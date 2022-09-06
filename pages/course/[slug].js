@@ -187,25 +187,25 @@ const CourseInformation = ({ course }) => {
           <span className="">
             <Clock />
           </span>
-          Duracion: 1hr 30m
+          Duracion: {course?.Duration}
         </p>
         <p className=" flex gap-2 ">
           <span>
             <Paper />
           </span>
-          5 recursos descargables
+          {course?.Resourses} recursos descargables
         </p>
         <p className="flex gap-2 ">
           <span>
             <Loop />
           </span>
-          Acceso de por vida
+          {course?.FeedBack}
         </p>
         <p className="flex gap-2 ">
           <span>
             <Task />
           </span>
-          Tareas
+          {course?.Task}
         </p>
       </div>
     </div>

@@ -9,24 +9,18 @@ export default async function handler(req, res) {
     case "POST":
       const { user } = req.body;
       try {
-        const Founduser = await User.findOne({ Email: user.Email });
+        const Founduser = await User.findOne({ Email: user.email });
         if (Founduser) {
-          console.log("user already exist");
           return res.status(200).json({
-            message: "User already exists",
+            message: "Auth",
+            user: Founduser,
+          });
+        } else {
+          return res.status(200).json({
+            message: "NoAuth",
+            Error: 1,
           });
         }
-        const newUser = await new User({
-          Email: user.email,
-          Name: user.name,
-          Picture: user.image,
-          Courses: ["prod_MGtPRT6Ot4HsJT"],
-        }).save();
-        console.log("new user created");
-        return res.status(200).json({
-          message: "User created successfully",
-          user: newUser,
-        });
       } catch (error) {
         res.status(500).json({
           status: "error",
