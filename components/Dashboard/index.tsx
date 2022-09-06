@@ -119,6 +119,13 @@ const CardWrapper = () => {
   );
 };
 
+declare global {
+  interface Window {
+    // ⚠️ notice that "Window" is capitalized here
+    myLine: any;
+  }
+}
+
 const SectionWrapper = () => {
   return (
     <div className="flex flex-wrap mt-6 -mx-3 border-2 border-red-500">
