@@ -17,6 +17,7 @@ export default async function handler(req, res) {
 
 const courseItem = {
   "que-es-la-tecnologia": {
+    id: "que-es-la-tecnologia",
     name: "¿Qué es la tecnología?",
     description: "Breve introducción a la tecnología",
     metadata: {

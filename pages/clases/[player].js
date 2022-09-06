@@ -5,133 +5,50 @@ import { getAllClasseByCourse } from "../../utils/getAllClasseByCourse";
 import { getCourseDetail } from "../../utils/getCourseDetail";
 import Router from "next/router";
 
-export default function Player() {
-  //const { data } = clases;
+import { authOptions } from "../api/auth/[...nextauth]";
+import { unstable_getServerSession } from "next-auth/next";
+import { CeroacienServerInstances } from "../../config/server";
 
-  //States
-  const [isLoading, setIsLoading] = useState(true);
-  const [clases, setClases] = useState([]);
-  const [course, setCourse] = useState();
+export default function Player({ session, course, courseID, clases }) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [currentClase, setCurrentClase] = useState(null);
+  const [currentClase, setCurrentClase] = useState(clases[currentIndex]);
 
   const ChangeClase = (index) => {
     setCurrentIndex(index);
     setCurrentClase(clases[index]);
   };
 
-  const { asPath } = useRouter();
-  const courseID = asPath.split("/")[2];
-
-  useEffect(() => {
-    if (courseID === "[player]") return;
-    (async () => {
-      try {
-        const { data } = await getAllClasseByCourse(courseID);
-        const resp = await getCourseDetail(courseID);
-        setClases(data);
-        setCourse(resp);
-        setCurrentClase(data[currentIndex]);
-        setIsLoading(false);
-      } catch (error) {
-        setClases([]);
-        setCourse([]);
-        console.log(error);
-        setIsLoading(false);
-        Router.push(`/course/${courseID}`);
-      }
-    })();
-    //preguntar si el curso esta comprado
-    //si no esta comprado, mostrar modal de pago
-    //si esta comprado, mostrar solo las clases que estan disponibles
-  }, [asPath]);
-
-  return (
-    <>
-      {isLoading && <LoadingPage />}
-      {!isLoading && (
-        <>
-          <Head>
-            <title>{currentClase.title} | ceroacien |</title>
-          </Head>
-          <Wrappper>
-            <WrapperPlayer>
-              <VideoContainer>
-                <VideoPlayer src={currentClase.assets.player} />
-              </VideoContainer>
-              <CourseDescription course={course} />
-              <VideoDescriptionWrapper>
-                <VideoDescription
-                  Title={currentClase.title}
-                  Description={currentClase.description}
-                />
-              </VideoDescriptionWrapper>
-            </WrapperPlayer>
-            <WrapperPlayList>
-              <PlayListContainer>
-                <VideoPlaylistItems
-                  clases={clases}
-                  currentIndex={currentIndex}
-                  ChangeClase={ChangeClase}
-                />
-              </PlayListContainer>
-            </WrapperPlayList>
-          </Wrappper>
-        </>
-      )}
-    </>
-  );
-}
-
-const LoadingPage = () => {
   return (
     <>
       <Head>
-        <title>Tu curso esta cargando | ceroacien |</title>
+        <title>{currentClase.title} | ceroacien |</title>
       </Head>
       <Wrappper>
         <WrapperPlayer>
           <VideoContainer>
-            <div className="w-full h-full animate-pulse bg-gray-200 "></div>
+            <VideoPlayer src={currentClase.assets.player} />
           </VideoContainer>
-          <div className="animate-pulse  w-full px-2 py-2 flex items-center gap-3 md:gap-5 max-h-[86px]">
-            <div className="h-9 w-9 rounded-full bg-gray-200"></div>
-            <div className="bg-gray-200 animate-pulse w-1/2   flex items-center max-w-[80%]  max-h-[48px] overflow-hidden">
-              <div className="h-[1.25rem]"></div>
-            </div>
-          </div>
+          <CourseDescription course={course} />
           <VideoDescriptionWrapper>
-            <div className="py-5 animate-pulse">
-              <div className="bg-gray-200 animate-pulse w-5/6  flex items-center max-w-[80%]  max-h-[48px] overflow-hidden">
-                <div className="h-[2rem]"></div>
-              </div>
-            </div>
+            <VideoDescription
+              Title={currentClase.title}
+              Description={currentClase.description}
+            />
           </VideoDescriptionWrapper>
         </WrapperPlayer>
         <WrapperPlayList>
           <PlayListContainer>
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((item) => (
-              <div
-                key={item}
-                className=" animate-pulse flex w-full h-[94px] relative z-0 border-2 border-transparent"
-              >
-                <div className="animate-pulse z-0 border-2 border-transparent h-full aspect-video bg-gray-200"></div>
-                <div className="ml-2 w-1/2 flex flex-col gap-2 justify-center ">
-                  <div className="bg-gray-200 animate-pulse w-5/6 border-2  flex items-center max-w-[80%]  max-h-[13px] overflow-hidden">
-                    <div className="h-[0.5rem]"></div>
-                  </div>
-                  <div className="bg-gray-200 animate-pulse w-5/6 border-2  flex items-center max-w-[80%]  max-h-[20px] overflow-hidden">
-                    <div className="h-[2rem]"></div>
-                  </div>
-                </div>
-              </div>
-            ))}
+            <VideoPlaylistItems
+              clases={clases}
+              currentIndex={currentIndex}
+              ChangeClase={ChangeClase}
+            />
           </PlayListContainer>
         </WrapperPlayList>
       </Wrappper>
     </>
   );
-};
+}
 
 const Wrappper = ({ children }) => {
   return (
@@ -245,11 +162,6 @@ const VideoPlaylistItem = ({
             <span>Clase {index + 1}</span>
             <h3 className="text-base font-semibold ">{clase.title}</h3>
           </div>
-          {/*<div
-            className={`${
-              lastItem - 1 === index ? "h-[100%] " : "h-[130%] "
-            } absolute top-0 right-0 border-2 border-primary/50`}
-          ></div>*/}
         </div>
       </section>
     </>
@@ -333,6 +245,85 @@ const VideoDescription = ({ Title, Description }) => {
   );
 };
 
+const getRedirect = (url) => {
+  return url.split("/").join("%2F");
+};
+
+export async function getServerSideProps(context) {
+  const session = await unstable_getServerSession(
+    context.req,
+    context.res,
+    authOptions
+  );
+  const url = getRedirect(context.resolvedUrl);
+  const slug = context.resolvedUrl.split("/")[2];
+  let data = null;
+
+  try {
+    const resp = await CeroacienServerInstances("/courses/" + slug);
+    data = resp.data;
+  } catch (error) {
+    console.log(error);
+    return {
+      redirect: {
+        destination: `/course/${slug}`,
+        permanent: false,
+      },
+    };
+  }
+
+  let clases = null;
+
+  try {
+    const { data } = await CeroacienServerInstances(`/video?id=${slug}`);
+    clases = data;
+  } catch (error) {
+    console.log(error);
+    return {
+      redirect: {
+        destination: `/course/${slug}`,
+        permanent: false,
+      },
+    };
+  }
+
+  if (!session) {
+    return {
+      redirect: {
+        destination: `/api/auth/signin?callbackUrl=${url}`,
+        permanent: false,
+      },
+    };
+  }
+
+  if (!data.product) {
+    return {
+      redirect: {
+        destination: `/course/${slug}`,
+        permanent: false,
+      },
+    };
+  }
+
+  if (clases == null) {
+    return {
+      redirect: {
+        destination: `/course/${slug}`,
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+      course: data.product,
+      courseID: slug,
+      clases: clases.data,
+    },
+  };
+}
+
 /*export async function getServerSideProps(context) {
   const courseID = context.params.player;
   const { data } = await getAllClasseByCourse(courseID);
@@ -356,3 +347,33 @@ const VideoDescription = ({ Title, Description }) => {
     },
   };
 }*/
+
+/*
+          <Head>
+            <title>{currentClase.title} | ceroacien |</title>
+          </Head>
+          <Wrappper>
+            <WrapperPlayer>
+              <VideoContainer>
+                <VideoPlayer src={currentClase.assets.player} />
+              </VideoContainer>
+              <CourseDescription course={course} />
+              <VideoDescriptionWrapper>
+                <VideoDescription
+                  Title={currentClase.title}
+                  Description={currentClase.description}
+                />
+              </VideoDescriptionWrapper>
+            </WrapperPlayer>
+            <WrapperPlayList>
+              <PlayListContainer>
+                <VideoPlaylistItems
+                  clases={clases}
+                  currentIndex={currentIndex}
+                  ChangeClase={ChangeClase}
+                />
+              </PlayListContainer>
+            </WrapperPlayList>
+          </Wrappper>
+        </>
+      )}*/

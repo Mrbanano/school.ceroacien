@@ -114,20 +114,18 @@ const ToogleMenu = ({ isOpen, toggle }) => {
             className=" p-3 hover:bg-gray-300"
             onClick={toggle}
           >
-            <Link href="/api/auth/logout">
-              <div
-                className="btn btn-link p-0"
-                onClick={(e) => {
-                  e.preventDefault();
-                  toggle();
-                  signOut({
-                    callbackUrl: `${window.location.origin}`,
-                  });
-                }}
-              >
-                Cerrar sesion
-              </div>
-            </Link>
+            <div
+              className="btn btn-link p-0"
+              onClick={(e) => {
+                e.preventDefault();
+                toggle();
+                signOut({
+                  callbackUrl: `${window.location.origin}`,
+                });
+              }}
+            >
+              Cerrar sesion
+            </div>
           </div>
         </Link>
       </div>

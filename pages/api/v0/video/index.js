@@ -2,9 +2,6 @@ import ApiVideoClient from "@api.video/nodejs-client";
 
 export default async function handler(req, res) {
   const { id } = req.query;
-
-  console.log(id);
-
   const tags = [id];
 
   const apiKey = process.env.API_KEY;

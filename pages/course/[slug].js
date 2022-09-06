@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { useState } from "react";
+import React from "react";
 import { authOptions } from "../api/auth/[...nextauth]";
 import { unstable_getServerSession } from "next-auth/next";
 import { CeroacienServerInstances } from "../../config/server";
@@ -12,11 +12,32 @@ import Loop from "../../components/Icon/Loop";
 import TemaryIcon from "../../components/Icon/TemaryIcon";
 import { CourseInfo as Description } from "../../components/CourseInfo";
 import Image from "next/image";
-import Router, { useRouter } from "next/router";
-import { getCourseDetail } from "../../utils/getCourseDetail";
+import Router from "next/router";
 
 export default function index({ course }) {
-  return <p>{JSON.stringify(course)}</p>;
+  return (
+    <>
+      <Head>
+        <title>{course.name}</title>
+        <meta name="description" content={course.descripcion} />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main
+        className={`relative max-w-screen-xl mx-auto sm:flex justify-evenly items-start sm:mt-14`}
+      >
+        <WraperCourseInfo>
+          <HeroCourse media={course?.extra?.media} />
+          <CourseInfo course={course} />
+        </WraperCourseInfo>
+        <Banner id={course.id} />
+        <WrapperCourseContent>
+          <HeaderCourse course={course} />
+          <DescriptionSection course={course} />
+          <Temary temary={course?.extra?.temary} />
+        </WrapperCourseContent>
+      </main>
+    </>
+  );
 }
 
 const getRedirect = (url) => {
@@ -81,7 +102,7 @@ const WrapperCourseContent = ({ children }) => {
 
 const WraperCourseInfo = ({ children }) => {
   return (
-    <section className="sm:max-w-[300px] sm:order-1 sm:w-2/6 sm:sticky sm:top-24 sm:border-4 sm:border-white bg-white sm:shadow-lg z-10">
+    <section className="shadow-lg sm:max-w-[300px] sm:order-1 sm:w-2/6 sm:sticky sm:top-24 sm:border-4 sm:border-white bg-white sm:shadow-lg z-10">
       {children}
     </section>
   );
@@ -89,7 +110,7 @@ const WraperCourseInfo = ({ children }) => {
 
 const HeaderCourse = ({ course }) => {
   return (
-    <section className="bg-white hidden px-12 py-6 sm:flex sm:flex-col gap-8  z-0">
+    <section className="shadow-lg bg-white hidden px-12 py-6 sm:flex sm:flex-col gap-8  z-0">
       <h1 className="text-5xl font-semibold ">{course.name}</h1>
       <p className="font-light text-xl ">{course.description}</p>
       <Mentor mentor={course?.extra?.tutor} />
@@ -191,62 +212,36 @@ const CourseInformation = ({ course }) => {
   );
 };
 
-const Pricing = ({ id, price, handleCloseModal, show, Status }) => {
-  //Custom Hook
-
-  const [isBuy, setIsBuy] = useState(true);
-
+const Pricing = ({ id }) => {
   return (
     <div className="sm:order-1 sm:mb-7">
       <div className="pt-20 pb-5 sm:pt-0"></div>
       <div>
-        {!isBuy && (
-          <a className=" hidden sm:block sm:w-full">
-            <button
-              onClick={() => {
-                handleCloseModal(show);
-              }}
-              className="w-full p-[9px] lg:p-3  border-2 rounded-lg font-bold text-sm bg-primary text-white md:text-lg   hover:text-white hover:font-black hover:border-primary transition duration-150 ease-out hover:ease-in "
-            >
-              Comprar ahora
-            </button>
-          </a>
-        )}
-        {isBuy && Status == "Preventa" && (
-          <a className=" hidden sm:block sm:w-full">
-            <button className="w-full p-[9px] lg:p-3  border-2 rounded-lg font-bold text-sm bg-primary text-white md:text-lg   hover:text-white hover:font-black hover:border-primary transition duration-150 ease-out hover:ease-in ">
-              Proximamente
-            </button>
-          </a>
-        )}
-        {isBuy && Status !== "Preventa" && (
-          <a className=" hidden sm:block sm:w-full">
-            <button
-              onClick={() => {
-                Router.push("/clases/" + id);
-              }}
-              className="w-full p-[9px] lg:p-3  border-2 rounded-lg font-bold text-sm bg-primary text-white md:text-lg   hover:text-white hover:font-black hover:border-primary transition duration-150 ease-out hover:ease-in "
-            >
-              Ver curso
-            </button>
-          </a>
-        )}
+        <a className=" hidden sm:block sm:w-full">
+          <button
+            onClick={() => {
+              Router.push("/clases/" + id);
+            }}
+            className="w-full p-[9px] lg:p-3  border-2 rounded-lg font-bold text-sm bg-primary text-white md:text-lg   hover:text-white hover:font-black hover:border-primary transition duration-150 ease-out hover:ease-in "
+          >
+            ir a clases
+          </button>
+        </a>
       </div>
     </div>
   );
 };
 
-const Banner = ({ handleCloseModal, show }) => {
+const Banner = ({ id }) => {
   return (
-    <div className="border-t-2 border-gray-100 fixed w-full bottom-0 bg-white shadow-md flex justify-between items-center gap-2 py-2 px-4 md:hidden z-50">
-      <div className="W-1/3 "></div>
+    <div className=" border-t-2 border-gray-100 fixed w-full bottom-0 bg-white shadow-md flex justify-between items-center gap-2 py-2 px-4 md:hidden z-50">
       <button
         onClick={() => {
-          handleCloseModal(show);
+          Router.push("/clases/" + id);
         }}
-        className="bg-primary text-white w-2/3 font-semibold px-4 py-4"
+        className="bg-primary h-12 text-white w-full font-semibold "
       >
-        Comprar ahora
+        ir a clases
       </button>
     </div>
   );
@@ -254,14 +249,14 @@ const Banner = ({ handleCloseModal, show }) => {
 
 const Temary = ({ temary }) => {
   return (
-    <section className="flex flex-col gap-2 px-2 sm:px-0 my-12 py-1 ">
+    <section className=" flex flex-col gap-2 px-2 sm:px-0 my-12 py-1 ">
       <h2 className="text-2xl font-bold py-2">Contenido del curso</h2>
-      <section className=" bg-white p-8">
+      <section className=" bg-white p-8 shadow-lg">
         <div className="flex flex-col gap-5">
           {Object.keys(temary).map((key, index) => {
             return (
               <div key={"Temary" + key + index}>
-                <details>
+                <details open>
                   <summary className="p-5 border-2 shadow text-lg font-bold">
                     {key}
                   </summary>
@@ -292,55 +287,8 @@ const Temary = ({ temary }) => {
 
 const DescriptionSection = ({ course }) => {
   return (
-    <section className="my-12 p-0">
+    <section className="my-12 p-0 border-2 shadow-lg">
       <Description descripcion={course.description} type="detail" />
     </section>
   );
 };
-
-/**
- * <>
-    
-      <Head>
-        <title>{course.name}</title>
-        <meta name="description" content={course.descripcion} />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main
-        className={`${
-          showModal ? "max-h-[75vh] overflow-hidden" : ""
-        }  relative max-w-screen-xl mx-auto sm:flex justify-evenly items-start sm:mt-14`}
-      >
-        {Loading ? (
-          <p>Cargando...</p>
-        ) : (
-          <>
-            {/*<WraperCourseInfo>
-              <HeroCourse media={course?.extra?.media} />
-              <CourseInfo
-                course={course}
-                handleCloseModal={handleCloseModal}
-                show={showModal}
-              />
-            </WraperCourseInfo>
-            <Banner
-              id={course.id}
-              price={course?.default_price}
-              handleCloseModal={handleCloseModal}
-              show={showModal}
-            />
-            <WrapperCourseContent>
-              <HeaderCourse course={course} />
-              <>
-                <DescriptionSection course={course} />
-                <Temary temary={course?.extra?.temary} />
-              </>
-        </WrapperCourseContent>}
-          </>
-        )}
-      </main>
-    </>
-  /*
-    <>
- */

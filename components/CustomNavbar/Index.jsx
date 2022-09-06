@@ -42,7 +42,7 @@ function Index({ children }) {
   const [Show, setShow] = useState(false);
   return (
     <>
-      {asPath === "/" || asPath === "/login" ? null : (
+      {asPath === "" || asPath === "/login" ? null : (
         <>
           <header className="w-full py-1 bg-white shadow-lg sticky top-0 z-40">
             <nav className="navbar navbar-expand-lg navbar-light bg-light p-2  flex items-center justify-between max-w-screen-2xl mx-auto ">
@@ -58,7 +58,7 @@ function Index({ children }) {
                         alt="AlvaroCastilloCarreñoDesarolladorWeb"
                       />
                       <span className="absolute right-[-10px] top-0 text-xs font-medium text-gray-400">
-                        BETA
+                        School
                       </span>
                     </div>
                   </a>
