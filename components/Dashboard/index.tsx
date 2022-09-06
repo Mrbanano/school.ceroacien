@@ -227,7 +227,14 @@ const Graph = () => {
         },
       },
     };
-    var ctx = document.getElementById("line-chart")?.getContext("2d");
+    var canvas = document.getElementById(
+      "line-chart"
+    ) as HTMLCanvasElement | null;
+    let ctx = null;
+    if (canvas != null) {
+      ctx = canvas.getContext("2d");
+    }
+
     window.myLine = new Chart(ctx, config);
   }, []);
 
